@@ -107,14 +107,14 @@ jobs:
     - name: Start Backend Server
       working-directory: ./backend
       env:
-        MONGODB_URI: mongodb://localhost:27017/game2d_e2e
+        MONGODB_URI: mongodb://127.0.0.1:27017/game2d_e2e
         PORT: 3001
         JWT_SECRET: test-secret
         NODE_ENV: test
       run: |
         npm run seed
         nohup npm start > backend.log 2>&1 &
-        npx wait-on -t 60000 http-get://localhost:3001/api/health
+        npx wait-on -t 60000 http-get://127.0.0.1:3001/api/health
 
     - name: Show Backend Logs on Failure
       if: failure()

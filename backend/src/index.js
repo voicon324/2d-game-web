@@ -1,4 +1,3 @@
-console.log('Starting backend application...');
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';

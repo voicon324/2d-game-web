@@ -108,7 +108,7 @@ jobs:
       working-directory: ./backend
       env:
         MONGODB_URI: mongodb://127.0.0.1:27017/game2d_e2e
-        PORT: 3001
+        PORT: 3002
         JWT_SECRET: test-secret
         NODE_ENV: development
       run: |
@@ -119,8 +119,8 @@ jobs:
         echo "=== BACKEND LOGS (Startup) ==="
         cat backend.log
         echo "=============================="
-        npx wait-on -t 30000 tcp:127.0.0.1:3001
-        npx wait-on -t 30000 http-get://127.0.0.1:3001/api/health
+        npx wait-on -t 30000 tcp:127.0.0.1:3002
+        npx wait-on -t 30000 http-get://127.0.0.1:3002/api/health
 
     - name: Show Backend Logs on Failure
       if: failure()
@@ -139,7 +139,7 @@ jobs:
       working-directory: frontend
       env:
           CI: true
-          VITE_API_URL: http://127.0.0.1:3001/api
+          VITE_API_URL: http://127.0.0.1:3002/api
       run: npx playwright test
       
     - name: Show Backend Logs and Process Info on Failure
@@ -149,8 +149,8 @@ jobs:
         cat backend/backend.log || echo "No backend.log found"
         echo "=== DOCKER OVERVIEW ==="
         docker ps -a
-        echo "=== PORT 3001 USAGE ==="
-        ss -lptn 'sport = :3001' || echo "ss failed"
+        echo "=== PORT 3002 USAGE ==="
+        ss -lptn 'sport = :3002' || echo "ss failed"
       
     - name: Upload Playwright Report
       if: always()

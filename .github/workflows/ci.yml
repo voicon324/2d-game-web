@@ -134,10 +134,23 @@ jobs:
     - name: Install Playwright Browsers
       working-directory: ./frontend
       run: npx playwright install --with-deps chromium
-      
-    - name: Run Playwright Tests
-      working-directory: ./frontend
+          
+    - name: Run Playwright tests
+      working-directory: frontend
+      env:
+          CI: true
+          VITE_API_URL: http://127.0.0.1:3001/api
       run: npx playwright test
+      
+    - name: Show Backend Logs and Process Info on Failure
+      if: failure()
+      run: |
+        echo "=== BACKEND LOGS (Post-Test) ==="
+        cat backend/backend.log || echo "No backend.log found"
+        echo "=== DOCKER OVERVIEW ==="
+        docker ps -a
+        echo "=== PORT 3001 USAGE ==="
+        ss -lptn 'sport = :3001' || echo "ss failed"
       
     - name: Upload Playwright Report
       if: always()

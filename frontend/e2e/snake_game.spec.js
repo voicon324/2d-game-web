@@ -4,7 +4,7 @@ test.describe('Snake Game', () => {
     test('should allow a user to join and play Snake', async ({ page }) => {
         // 1. Register/Login
         const username = `tester_${Date.now()}`;
-        await page.goto('http://localhost:5173/login');
+        await page.goto('http://localhost:3000/login');
         // Switch to Register mode
         await page.getByRole('button', { name: 'Register' }).first().click();
         
@@ -19,7 +19,7 @@ test.describe('Snake Game', () => {
         await page.getByRole('button', { name: 'Create Account' }).click();
 
         // 2. Create Room
-        await expect(page).toHaveURL('http://localhost:5173/');
+        await expect(page).toHaveURL('http://localhost:3000/');
         await expect(page.getByText(`Welcome back, ${username}`)).toBeVisible();
         await page.getByRole('button', { name: 'Create Custom Room' }).click();
         

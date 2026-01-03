@@ -12,11 +12,11 @@ import { test, expect } from '@playwright/test';
 test.describe('Complete Game Flow', () => {
   // Helper to login a user
   async function loginUser(page, email, password) {
-    await page.goto('http://localhost:5173/login');
+    await page.goto('http://localhost:3000/login');
     await page.locator('input[name="email"]').fill(email);
     await page.locator('input[name="password"]').fill(password);
     await page.locator('button[type="submit"]').click();
-    await page.waitForURL('http://localhost:5173/', { timeout: 5000 }).catch(() => {});
+    await page.waitForURL('http://localhost:3000/', { timeout: 5000 }).catch(() => {});
   }
 
   test('Single player can navigate matchmaking and game pages', async ({ page }) => {
@@ -24,7 +24,7 @@ test.describe('Complete Game Flow', () => {
     await loginUser(page, 'test@example.com', 'password123');
     
     // Navigate to matchmaking
-    await page.goto('http://localhost:5173/matchmaking');
+    await page.goto('http://localhost:3000/matchmaking');
     await expect(page.getByText('Matchmaking')).toBeVisible();
     
     // Check game selection exists
@@ -33,7 +33,7 @@ test.describe('Complete Game Flow', () => {
     expect(selectExists).toBeTruthy();
     
     // Navigate to a replay page (even if no replay exists)
-    await page.goto('http://localhost:5173/replay/test123');
+    await page.goto('http://localhost:3000/replay/test123');
     await page.waitForTimeout(1000);
     
     // Page should load (either shows replay or not found)
@@ -46,7 +46,7 @@ test.describe('Complete Game Flow', () => {
     await loginUser(page, 'test@example.com', 'password123');
     
     // Go to home page
-    await page.goto('http://localhost:5173/');
+    await page.goto('http://localhost:3000/');
     await page.waitForTimeout(1000);
     
     // Look for Create Custom Room button
@@ -67,7 +67,7 @@ test.describe('Complete Game Flow', () => {
     await loginUser(page, 'test@example.com', 'password123');
     
     // Navigate directly to a game page with parameters
-    await page.goto('http://localhost:5173/game/caro?type=caro&room=TEST01');
+    await page.goto('http://localhost:3000/game/caro?type=caro&room=TEST01');
     await page.waitForTimeout(2000);
     
     // Page should load
@@ -78,7 +78,7 @@ test.describe('Complete Game Flow', () => {
   test('Profile page shows match history section', async ({ page }) => {
     await loginUser(page, 'test@example.com', 'password123');
     
-    await page.goto('http://localhost:5173/profile');
+    await page.goto('http://localhost:3000/profile');
     await page.waitForTimeout(1000);
     
     // Profile page should exist
@@ -90,7 +90,7 @@ test.describe('Complete Game Flow', () => {
     await loginUser(page, 'test@example.com', 'password123');
     
     // Check if replay route is accessible
-    await page.goto('http://localhost:5173/replay/someMatchId');
+    await page.goto('http://localhost:3000/replay/someMatchId');
     await page.waitForTimeout(1500);
     
     // Should show either replay content or not found message
@@ -101,13 +101,13 @@ test.describe('Complete Game Flow', () => {
 
 test.describe('Matchmaking Queue Behavior', () => {
   test('Can enter and cancel matchmaking queue', async ({ page }) => {
-    await page.goto('http://localhost:5173/login');
+    await page.goto('http://localhost:3000/login');
     await page.locator('input[name="email"]').fill('test@example.com');
     await page.locator('input[name="password"]').fill('password123');
     await page.locator('button[type="submit"]').click();
     await page.waitForTimeout(1000);
     
-    await page.goto('http://localhost:5173/matchmaking');
+    await page.goto('http://localhost:3000/matchmaking');
     await page.waitForTimeout(1000);
     
     // Select a game if dropdown exists
@@ -140,7 +140,7 @@ test.describe('Matchmaking Queue Behavior', () => {
   });
 
   test('Matchmaking info section is displayed', async ({ page }) => {
-    await page.goto('http://localhost:5173/matchmaking');
+    await page.goto('http://localhost:3000/matchmaking');
     await page.waitForTimeout(1000);
     
     // Should see matchmaking info
@@ -160,12 +160,12 @@ test.describe('Multi-player Flow Simulation', () => {
     
     try {
       // Both players login
-      await page1.goto('http://localhost:5173/login');
+      await page1.goto('http://localhost:3000/login');
       await page1.locator('input[name="email"]').fill('test@example.com');
       await page1.locator('input[name="password"]').fill('password123');
       await page1.locator('button[type="submit"]').click();
       
-      await page2.goto('http://localhost:5173/login');
+      await page2.goto('http://localhost:3000/login');
       await page2.locator('input[name="email"]').fill('test2@example.com');
       await page2.locator('input[name="password"]').fill('password123');
       await page2.locator('button[type="submit"]').click();
@@ -176,7 +176,7 @@ test.describe('Multi-player Flow Simulation', () => {
       ]);
       
       // Both navigate to same game room
-      const roomUrl = 'http://localhost:5173/game/caro?type=caro&room=MULTI1';
+      const roomUrl = 'http://localhost:3000/game/caro?type=caro&room=MULTI1';
       
       await Promise.all([
         page1.goto(roomUrl),

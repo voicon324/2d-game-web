@@ -9,7 +9,7 @@ test.describe('In-Game Chat Feature', () => {
     const password = 'password123';
     
     // 1. Register and Login
-    await page.goto('http://localhost:5173/login');
+    await page.goto('http://localhost:3000/login');
     await page.getByRole('button', { name: 'Register' }).click();
     await page.locator('input[name="username"]').fill(username);
     await page.locator('input[name="email"]').fill(email);
@@ -19,7 +19,7 @@ test.describe('In-Game Chat Feature', () => {
     await page.getByRole('button', { name: 'Create Account' }).click();
     
     // Wait for Home Page
-    await page.waitForURL('http://localhost:5173/', { timeout: 15000 });
+    await page.waitForURL('http://localhost:3000/', { timeout: 15000 });
     
     // 2. Create Room
     await page.getByText('Create Custom Room').click();

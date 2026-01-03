@@ -9,7 +9,7 @@ async function setupGame(browser, gameSlug, usernamePrefix) {
     console.log(`Setting up game for ${username} (${gameSlug})`);
     
     // Register
-    await page.goto('http://localhost:5173/login');
+    await page.goto('http://localhost:3000/login');
     
     // Click Register Toggle specifically
     await page.locator('button:text("Register")').first().click();
@@ -25,7 +25,7 @@ async function setupGame(browser, gameSlug, usernamePrefix) {
     await page.getByRole('button', { name: "Create Account" }).click();
     
     // Wait for redirect to home
-    await expect(page).toHaveURL('http://localhost:5173/', { timeout: 10000 });
+    await expect(page).toHaveURL('http://localhost:3000/', { timeout: 10000 });
     
     // Click Create Custom Room
     const createBtn = page.getByRole('button', { name: 'add Create Custom Room' });

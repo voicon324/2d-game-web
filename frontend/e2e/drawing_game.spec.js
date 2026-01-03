@@ -9,7 +9,7 @@ async function registerAndLogin(browser, usernamePrefix) {
     console.log(`[${username}] Starting registration...`);
 
     // Register
-    await page.goto('http://localhost:5173/login');
+    await page.goto('http://localhost:3000/login');
     await page.locator('button:text("Register")').first().click();
     
     await page.locator('input[name="username"]').fill(username);
@@ -21,7 +21,7 @@ async function registerAndLogin(browser, usernamePrefix) {
     await page.getByRole('button', { name: "Create Account" }).click();
     
     // Wait for redirect to home
-    await expect(page).toHaveURL('http://localhost:5173/', { timeout: 15000 });
+    await expect(page).toHaveURL('http://localhost:3000/', { timeout: 15000 });
     console.log(`[${username}] Registered and logged in.`);
     
     return { page, username };

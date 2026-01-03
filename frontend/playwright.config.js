@@ -9,7 +9,7 @@ export default defineConfig({
   fullyParallel: true,
   reporter: [['list'], ['json', { outputFile: 'test-results/report.json' }]],
   use: {
-    baseURL: 'http://localhost:5173', // Vite default port
+    baseURL: 'http://localhost:3000', // Vite default port
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },
@@ -21,7 +21,7 @@ export default defineConfig({
   ],
   webServer: {
     command: 'npm run dev',
-    url: 'http://localhost:5173',
+    url: 'http://localhost:3000',
     reuseExistingServer: true,
     timeout: 120000,
   },

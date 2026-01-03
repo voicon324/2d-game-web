@@ -1,0 +1,324 @@
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Game Rules - PixelHeart Games</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#ec4899", // Pink color inspired by the heart image
+                        "background-light": "#f3f4f6", // Cool gray for light mode
+                        "background-dark": "#111827", // Dark gray for dark mode
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1f2937",
+                        "text-light": "#1f2937",
+                        "text-dark": "#f9fafb",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                    },
+                },
+            },
+        };
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<script>
+        // Simple script to toggle dark mode for demo purposes
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+        }
+    </script>
+</head><body class="bg-background-light dark:bg-background-dark font-display min-h-screen transition-colors duration-200">
+<nav class="sticky top-0 z-50 bg-surface-light dark:bg-surface-dark border-b border-gray-200 dark:border-gray-700 shadow-sm">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between h-16">
+<div class="flex">
+<div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.location.href='#'">
+<span class="material-icons text-primary text-3xl mr-2">grid_on</span>
+<span class="font-bold text-xl text-text-light dark:text-text-dark tracking-tight">PixelHeart Games</span>
+</div>
+<div class="hidden sm:ml-8 sm:flex sm:space-x-8 items-center">
+<a class="border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-200 px-1 pt-1 text-sm font-medium" href="#">Lobby</a>
+<a class="border-b-2 border-primary text-text-light dark:text-text-dark px-1 pt-1 text-sm font-medium" href="#">Game Rules</a>
+<a class="border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-200 px-1 pt-1 text-sm font-medium" href="#">Leaderboard</a>
+</div>
+</div>
+<div class="flex items-center space-x-4">
+<button class="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none" onclick="toggleDarkMode()">
+<span class="material-icons">brightness_4</span>
+</button>
+<button class="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none relative">
+<span class="material-icons">notifications</span>
+<span class="absolute top-1.5 right-1.5 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-gray-800"></span>
+</button>
+<div class="ml-3 relative">
+<div>
+<button class="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" id="user-menu-button" type="button">
+<span class="sr-only">Open user menu</span>
+<img alt="User avatar" class="h-8 w-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHcJKUDPYc3aP3mq-C_bH-DWjRyoothSh7UOPBKJgW68f1Bk_8s64zBs5oYtVJFd-_Mr9aUHGG41Neo24NxDlsFgHeu4am8N6LCdjyEDb-dCZTzUZ6otoHB3dF6q5zK0E24izbfZLfIhbzHeiXAg2aGvK2M2yNFr0JiziOOgLr69Q8U7M0Mr-BDpgOBSl2DCu7fDOMuCMWsu0xQ18rtORLNr7ApPaJbQ3FzmZclkG7vGBYSAnHQOccFjxHU-DyeNe2ewUNqlTbxrI"/>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+<div class="flex items-center justify-between mb-8">
+<nav aria-label="Breadcrumb" class="flex">
+<ol class="flex items-center space-x-4" role="list">
+<li>
+<div>
+<a class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300" href="#">
+<span aria-hidden="true" class="material-icons flex-shrink-0 h-5 w-5">home</span>
+<span class="sr-only">Home</span>
+</a>
+</div>
+</li>
+<li>
+<div class="flex items-center">
+<span class="material-icons text-gray-300 dark:text-gray-600 flex-shrink-0 h-5 w-5">chevron_right</span>
+<a class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" href="#">Games</a>
+</div>
+</li>
+<li>
+<div class="flex items-center">
+<span class="material-icons text-gray-300 dark:text-gray-600 flex-shrink-0 h-5 w-5">chevron_right</span>
+<a class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" href="#">Grandmaster Chess</a>
+</div>
+</li>
+<li>
+<div class="flex items-center">
+<span class="material-icons text-gray-300 dark:text-gray-600 flex-shrink-0 h-5 w-5">chevron_right</span>
+<span aria-current="page" class="ml-4 text-sm font-medium text-primary">Rules</span>
+</div>
+</li>
+</ol>
+</nav>
+<button class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-surface-dark hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors">
+<span class="material-icons text-sm mr-2">arrow_back</span>
+  Back to Game
+</button>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+<div class="hidden lg:block lg:col-span-1">
+<div class="sticky top-24 bg-surface-light dark:bg-surface-dark rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+<h3 class="font-bold text-lg text-text-light dark:text-text-dark mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">Contents</h3>
+<nav class="space-y-1">
+<a class="block px-3 py-2 rounded-md text-sm font-medium text-primary bg-primary bg-opacity-10 dark:bg-opacity-20" href="#overview">Overview</a>
+<a class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200" href="#setup">Game Setup</a>
+<a class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200" href="#movement">Piece Movement</a>
+<a class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200" href="#special-moves">Special Moves</a>
+<a class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200" href="#winning">Winning Conditions</a>
+</nav>
+<div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+<p class="text-xs text-gray-500 dark:text-gray-400 mb-3">Still have questions?</p>
+<button class="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-primary bg-primary bg-opacity-10 hover:bg-opacity-20 dark:bg-opacity-20 dark:hover:bg-opacity-30 focus:outline-none">
+<span class="material-icons text-sm mr-2">forum</span>
+          Ask in Forum
+        </button>
+</div>
+</div>
+</div>
+<div class="lg:col-span-3 space-y-8">
+<div class="bg-surface-light dark:bg-surface-dark rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+<div class="relative h-48 sm:h-64 bg-gray-800 flex items-center justify-center overflow-hidden">
+<span class="material-icons text-9xl text-white opacity-5 absolute -bottom-10 -right-10 transform -rotate-12">shield</span>
+<img alt="Chess Board Header" class="absolute inset-0 w-full h-full object-cover opacity-40" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFfBUV0jOwTZY13KIJfXilOewfAIZ-ssmnfdn48CNL88fy2Yscw-0s0_M9mhdOtXbzjaNp_albw1qhLWPLWDgixnkrdevJNCcfFHysgKuwXgGXJpwgLBLvpMWQZm4Myy39lLsonLhO2_P8866yE5SW-eOI3HManKVK48ihPIHLdoJMxcNq2VhAjqghwNpLfUUpUvbKSk3n_7euu6QcGaegH0ow2e8WZ6IoTToVdIMxhFBKKY4oYwYCXkArIoJZIfX9TAWN_DJiBY8"/>
+<div class="relative z-10 text-center px-4">
+<div class="mx-auto h-16 w-16 rounded-xl bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center mb-4 shadow-lg">
+<span class="material-icons text-3xl text-indigo-600 dark:text-indigo-300">shield</span>
+</div>
+<h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-2">Grandmaster Chess</h1>
+<p class="text-lg text-gray-200 max-w-2xl mx-auto">The classic game of strategy, tactics, and foresight.</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 sm:p-10 prose prose-pink dark:prose-invert max-w-none">
+<section class="mb-12 scroll-mt-28" id="overview">
+<h2 class="text-2xl font-bold text-text-light dark:text-text-dark mb-4 flex items-center">
+<span class="material-icons text-primary mr-2">info</span> Overview
+        </h2>
+<p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+          Chess is a two-player strategy board game played on a checkered board with 64 squares arranged in an 8×8 grid. Each player begins with 16 pieces: one king, one queen, two rooks, two knights, two bishops, and eight pawns. The objective is to checkmate the opponent's king by placing it under an inescapable threat of capture.
+        </p>
+<div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 text-center">
+<span class="material-icons text-gray-400 mb-2">people</span>
+<div class="text-sm font-medium text-gray-900 dark:text-white">Players</div>
+<div class="text-xs text-gray-500">2 Players</div>
+</div>
+<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 text-center">
+<span class="material-icons text-gray-400 mb-2">timer</span>
+<div class="text-sm font-medium text-gray-900 dark:text-white">Duration</div>
+<div class="text-xs text-gray-500">10-60 Mins</div>
+</div>
+<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 text-center">
+<span class="material-icons text-gray-400 mb-2">psychology</span>
+<div class="text-sm font-medium text-gray-900 dark:text-white">Complexity</div>
+<div class="text-xs text-gray-500">High</div>
+</div>
+</div>
+</section>
+<hr class="border-gray-200 dark:border-gray-700 my-8"/>
+<section class="mb-12 scroll-mt-28" id="setup">
+<h2 class="text-2xl font-bold text-text-light dark:text-text-dark mb-4 flex items-center">
+<span class="material-icons text-primary mr-2">grid_view</span> Game Setup
+        </h2>
+<p class="text-gray-600 dark:text-gray-300 mb-4">
+            The board is placed so that a white square is in each player's near-right corner. Pieces are set up on the two ranks closest to each player.
+        </p>
+<ul class="list-disc pl-5 space-y-2 text-gray-600 dark:text-gray-300 mb-6">
+<li><strong>Pawns</strong> occupy the second rank.</li>
+<li><strong>Rooks</strong> occupy the corners.</li>
+<li><strong>Knights</strong> are placed next to the rooks.</li>
+<li><strong>Bishops</strong> are placed next to the knights.</li>
+<li><strong>Queen</strong> is placed on her own color (white queen on white square, black queen on black square).</li>
+<li><strong>King</strong> occupies the remaining square.</li>
+</ul>
+<div class="bg-indigo-50 dark:bg-indigo-900/30 border-l-4 border-indigo-500 p-4 rounded-r-md">
+<div class="flex">
+<div class="flex-shrink-0">
+<span class="material-icons text-indigo-500">lightbulb</span>
+</div>
+<div class="ml-3">
+<p class="text-sm text-indigo-700 dark:text-indigo-200">
+                        Remember: "White on right" for the corner square, and "Queen on her color" for initial placement.
+                    </p>
+</div>
+</div>
+</div>
+</section>
+<hr class="border-gray-200 dark:border-gray-700 my-8"/>
+<section class="mb-12 scroll-mt-28" id="movement">
+<h2 class="text-2xl font-bold text-text-light dark:text-text-dark mb-6 flex items-center">
+<span class="material-icons text-primary mr-2">open_with</span> Piece Movement
+        </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex items-start space-x-4 p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800 border border-transparent hover:border-gray-200 dark:hover:border-gray-700 transition-all">
+<div class="flex-shrink-0 w-12 h-12 bg-white dark:bg-gray-700 rounded-full flex items-center justify-center shadow-sm text-2xl">♔</div>
+<div>
+<h4 class="text-lg font-bold text-gray-900 dark:text-white">King</h4>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Moves one square in any direction. The most important piece.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4 p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800 border border-transparent hover:border-gray-200 dark:hover:border-gray-700 transition-all">
+<div class="flex-shrink-0 w-12 h-12 bg-white dark:bg-gray-700 rounded-full flex items-center justify-center shadow-sm text-2xl">♕</div>
+<div>
+<h4 class="text-lg font-bold text-gray-900 dark:text-white">Queen</h4>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Moves any number of squares diagonally, horizontally, or vertically.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4 p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800 border border-transparent hover:border-gray-200 dark:hover:border-gray-700 transition-all">
+<div class="flex-shrink-0 w-12 h-12 bg-white dark:bg-gray-700 rounded-full flex items-center justify-center shadow-sm text-2xl">♖</div>
+<div>
+<h4 class="text-lg font-bold text-gray-900 dark:text-white">Rook</h4>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Moves any number of squares horizontally or vertically.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4 p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800 border border-transparent hover:border-gray-200 dark:hover:border-gray-700 transition-all">
+<div class="flex-shrink-0 w-12 h-12 bg-white dark:bg-gray-700 rounded-full flex items-center justify-center shadow-sm text-2xl">♗</div>
+<div>
+<h4 class="text-lg font-bold text-gray-900 dark:text-white">Bishop</h4>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Moves any number of squares diagonally.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4 p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800 border border-transparent hover:border-gray-200 dark:hover:border-gray-700 transition-all">
+<div class="flex-shrink-0 w-12 h-12 bg-white dark:bg-gray-700 rounded-full flex items-center justify-center shadow-sm text-2xl">♘</div>
+<div>
+<h4 class="text-lg font-bold text-gray-900 dark:text-white">Knight</h4>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Moves in an 'L' shape. The only piece that can jump over others.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4 p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800 border border-transparent hover:border-gray-200 dark:hover:border-gray-700 transition-all">
+<div class="flex-shrink-0 w-12 h-12 bg-white dark:bg-gray-700 rounded-full flex items-center justify-center shadow-sm text-2xl">♙</div>
+<div>
+<h4 class="text-lg font-bold text-gray-900 dark:text-white">Pawn</h4>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Moves forward one square. Captures diagonally forward. First move can be two squares.</p>
+</div>
+</div>
+</div>
+</section>
+<hr class="border-gray-200 dark:border-gray-700 my-8"/>
+<section class="mb-12 scroll-mt-28" id="special-moves">
+<h2 class="text-2xl font-bold text-text-light dark:text-text-dark mb-4 flex items-center">
+<span class="material-icons text-primary mr-2">stars</span> Special Moves
+        </h2>
+<div class="space-y-6">
+<div class="bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-lg p-5 shadow-sm">
+<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Castling</h3>
+<p class="text-gray-600 dark:text-gray-300 text-sm">
+                    A defensive move where the King moves two squares towards a Rook, and the Rook hops over the King. This is the only time two pieces move in one turn. Conditions apply (e.g., neither piece has moved, path is clear, king is not in check).
+                </p>
+</div>
+<div class="bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-lg p-5 shadow-sm">
+<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">En Passant</h3>
+<p class="text-gray-600 dark:text-gray-300 text-sm">
+                    A special pawn capture that can only occur immediately after a pawn makes a move of two squares from its starting square, and it could have been captured by an enemy pawn had it advanced only one square.
+                </p>
+</div>
+<div class="bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-lg p-5 shadow-sm">
+<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Promotion</h3>
+<p class="text-gray-600 dark:text-gray-300 text-sm">
+                    When a pawn reaches the eighth rank (the other side of the board), it must be exchanged for the player's choice of a queen, rook, bishop, or knight of the same color.
+                </p>
+</div>
+</div>
+</section>
+<hr class="border-gray-200 dark:border-gray-700 my-8"/>
+<section class="scroll-mt-28" id="winning">
+<h2 class="text-2xl font-bold text-text-light dark:text-text-dark mb-4 flex items-center">
+<span class="material-icons text-primary mr-2">emoji_events</span> Winning Conditions
+        </h2>
+<div class="flex flex-col md:flex-row gap-6">
+<div class="flex-1 bg-green-50 dark:bg-green-900/20 rounded-lg p-6 border border-green-200 dark:border-green-800">
+<h3 class="text-xl font-bold text-green-800 dark:text-green-300 mb-3">Checkmate</h3>
+<p class="text-gray-700 dark:text-gray-300 mb-4">
+                    The primary objective. The opponent's king is under threat of capture (check) and has no legal move to escape the threat.
+                </p>
+<div class="text-4xl text-center">🏆</div>
+</div>
+<div class="flex-1 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-6 border border-yellow-200 dark:border-yellow-800">
+<h3 class="text-xl font-bold text-yellow-800 dark:text-yellow-300 mb-3">Draw / Stalemate</h3>
+<p class="text-gray-700 dark:text-gray-300 mb-4">
+                    The game ends in a tie if the player whose turn it is has no legal move and is not in check (Stalemate), or by agreement, 3-fold repetition, or 50-move rule.
+                </p>
+<div class="text-4xl text-center">🤝</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div>
+</main>
+<footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
+<div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8">
+<div class="flex justify-center space-x-6 md:order-2">
+<a class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300" href="#">
+<span class="sr-only">Facebook</span>
+<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+<path clip-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" fill-rule="evenodd"></path>
+</svg>
+</a>
+<a class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300" href="#">
+<span class="sr-only">GitHub</span>
+<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+<path clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" fill-rule="evenodd"></path>
+</svg>
+</a>
+</div>
+<div class="mt-8 md:mt-0 md:order-1">
+<p class="text-center text-base text-gray-400">
+                    © 2023 PixelHeart Games, Inc. All rights reserved.
+                </p>
+</div>
+</div>
+</footer>
+</body></html>

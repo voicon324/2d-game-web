@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DotConnect - Friends</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#ec4899", // Vibrant Pink
+                        secondary: "#8b5cf6", // Violet
+                        success: "#22c55e", // Green
+                        warning: "#f59e0b", // Amber
+                        danger: "#ef4444", // Red
+                        "background-light": "#f8fafc", 
+                        "background-dark": "#0f172a", 
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1e293b",
+                    },
+                    fontFamily: {
+                        display: ["Quicksand", "sans-serif"],
+                        body: ["Quicksand", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "1rem",
+                        'xl': "1rem",
+                        '2xl': "1.5rem",
+                        '3xl': "2rem",
+                    },
+                },
+            },
+        };
+    </script>
+<style>.bg-dots-light {
+            background-image: radial-gradient(#cbd5e1 2px, transparent 2px);
+            background-size: 30px 30px;
+        }
+        .dark .bg-dots-dark {
+            background-image: radial-gradient(#334155 2px, transparent 2px);
+            background-size: 30px 30px;
+        }.fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }.custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #475569;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark bg-dots-light dark:bg-dots-dark font-body text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300">
+<nav class="absolute top-0 right-0 p-4 sm:p-6 z-10 flex gap-3">
+<button class="p-2.5 rounded-full bg-white dark:bg-slate-800 shadow-md hover:scale-105 active:scale-95 transition-all text-slate-600 dark:text-slate-300 ring-1 ring-slate-200 dark:ring-slate-700 focus:outline-none focus:ring-2 focus:ring-primary" onclick="window.location.reload()">
+<span class="material-icons-round text-xl leading-none">logout</span>
+</button>
+<button class="p-2.5 rounded-full bg-white dark:bg-slate-800 shadow-md hover:scale-105 active:scale-95 transition-all text-slate-600 dark:text-slate-300 ring-1 ring-slate-200 dark:ring-slate-700 focus:outline-none focus:ring-2 focus:ring-primary" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-icons-round text-xl dark:hidden leading-none">dark_mode</span>
+<span class="material-icons-round text-xl hidden dark:block leading-none">light_mode</span>
+</button>
+</nav>
+<main class="flex-grow flex items-center justify-center p-4">
+<div class="w-full max-w-[480px] bg-surface-light dark:bg-surface-dark rounded-3xl shadow-2xl overflow-hidden ring-1 ring-slate-200 dark:ring-slate-700 relative flex flex-col h-[85vh] max-h-[700px]">
+<div class="h-1.5 w-full bg-gradient-to-r from-pink-500 via-yellow-400 to-blue-500 flex-shrink-0"></div>
+<div class="p-6 pb-2 flex-shrink-0">
+<div class="flex items-center justify-between mb-6">
+<div>
+<h1 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+                        My Friends
+                        <span class="bg-pink-100 dark:bg-pink-900/30 text-primary text-xs font-bold px-2 py-0.5 rounded-full">12</span>
+</h1>
+<p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Manage your game connections</p>
+</div>
+<button class="p-2 bg-slate-50 dark:bg-slate-800 rounded-xl text-primary hover:bg-pink-50 dark:hover:bg-slate-700 transition-colors shadow-sm border border-slate-100 dark:border-slate-700" onclick="document.getElementById('add-friend-modal').classList.remove('hidden')">
+<span class="material-icons-round text-2xl leading-none">person_add</span>
+</button>
+</div>
+<div class="relative group">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400 dark:text-slate-500 group-focus-within:text-primary transition-colors">
+<span class="material-icons-round text-xl">search</span>
+</span>
+<input class="block w-full pl-11 pr-4 py-2.5 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-sm font-medium" placeholder="Search friends..." type="text"/>
+</div>
+<div class="flex gap-2 mt-4 overflow-x-auto pb-1 no-scrollbar">
+<button class="px-3 py-1.5 rounded-lg bg-primary text-white text-xs font-bold shadow-sm shadow-pink-500/20 whitespace-nowrap">All Friends</button>
+<button class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-bold transition-colors whitespace-nowrap">Online (4)</button>
+<button class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-bold transition-colors whitespace-nowrap">Pending</button>
+</div>
+</div>
+<div class="flex-grow overflow-y-auto custom-scrollbar p-6 pt-2 space-y-3">
+<div class="flex items-center justify-between p-3 rounded-2xl bg-white dark:bg-slate-800/40 border border-slate-100 dark:border-slate-700/50 hover:border-pink-200 dark:hover:border-pink-900/50 transition-all group">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="w-10 h-10 rounded-full bg-gradient-to-tr from-pink-400 to-orange-400 flex items-center justify-center text-white font-bold text-sm shadow-sm">
+                                JD
+                            </div>
+<div class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-success border-2 border-white dark:border-slate-800 rounded-full"></div>
+</div>
+<div>
+<h3 class="text-sm font-bold text-slate-800 dark:text-slate-200">Jane Doe</h3>
+<p class="text-[10px] font-semibold text-success flex items-center gap-1">
+                                In Game <span class="w-1 h-1 rounded-full bg-success"></span>
+</p>
+</div>
+</div>
+<div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 rounded-lg text-slate-400 hover:text-primary hover:bg-pink-50 dark:hover:bg-pink-900/20 transition-colors" title="Message">
+<span class="material-icons-round text-lg">chat_bubble_outline</span>
+</button>
+<button class="p-1.5 rounded-lg text-slate-400 hover:text-danger hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors" title="Remove">
+<span class="material-icons-round text-lg">person_remove</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-2xl bg-white dark:bg-slate-800/40 border border-slate-100 dark:border-slate-700/50 hover:border-pink-200 dark:hover:border-pink-900/50 transition-all group">
+<div class="flex items-center gap-3">
+<div class="relative">
+<img alt="User avatar" class="w-10 h-10 rounded-full object-cover border border-slate-200 dark:border-slate-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZmXM6OnhDbYOEg1Ab8lLMFVohO6C7tK5peFOIRYFcL1pnuDqrtEOSj16hTUeJOih1_YPprDy1crthTV0ZeeUqAYaMSuHxMAvy-CIsxTeXeFx_sNa86-i2jEZyhsoIYO8MnOYg7N0RU63-P7T6kk1GWjq1MX_-GfQIwxtbv8F1kBNcZ5-h_8yXOa6CbBY34S2BQeOy8nuGXmqdpduhSAEnMMDaGG73erxMbHIFsR-BevEqrl8zR5b-X4KFDoTPoNwfbfLCapfiM3Y"/>
+<div class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-success border-2 border-white dark:border-slate-800 rounded-full"></div>
+</div>
+<div>
+<h3 class="text-sm font-bold text-slate-800 dark:text-slate-200">Alex Smith</h3>
+<p class="text-[10px] font-semibold text-slate-500 dark:text-slate-400">
+                                Online
+                            </p>
+</div>
+</div>
+<div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 rounded-lg text-slate-400 hover:text-primary hover:bg-pink-50 dark:hover:bg-pink-900/20 transition-colors">
+<span class="material-icons-round text-lg">chat_bubble_outline</span>
+</button>
+<button class="p-1.5 rounded-lg text-slate-400 hover:text-danger hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+<span class="material-icons-round text-lg">person_remove</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-2xl bg-white dark:bg-slate-800/40 border border-slate-100 dark:border-slate-700/50 hover:border-pink-200 dark:hover:border-pink-900/50 transition-all group">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-300 font-bold text-sm">
+                                MK
+                            </div>
+<div class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-warning border-2 border-white dark:border-slate-800 rounded-full"></div>
+</div>
+<div>
+<h3 class="text-sm font-bold text-slate-800 dark:text-slate-200">Mike Knight</h3>
+<p class="text-[10px] font-semibold text-slate-500 dark:text-slate-400">
+                                Away - 15m
+                            </p>
+</div>
+</div>
+<div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 rounded-lg text-slate-400 hover:text-primary hover:bg-pink-50 dark:hover:bg-pink-900/20 transition-colors">
+<span class="material-icons-round text-lg">chat_bubble_outline</span>
+</button>
+<button class="p-1.5 rounded-lg text-slate-400 hover:text-danger hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+<span class="material-icons-round text-lg">person_remove</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-2xl bg-white dark:bg-slate-800/40 border border-slate-100 dark:border-slate-700/50 hover:border-pink-200 dark:hover:border-pink-900/50 transition-all group opacity-75 hover:opacity-100">
+<div class="flex items-center gap-3">
+<div class="relative grayscale">
+<img alt="User avatar" class="w-10 h-10 rounded-full object-cover border border-slate-200 dark:border-slate-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNcryu0nFJdadffAqvLC7Mz0dt9DUc3m6kMRCr_x1Fzv3ZB0jSHS0NX7x85PbOS5DoPRJR_9l9bqLWKzfMfBMWdPaelBszSTINDfxobGmQ03kyvTob_eLhOHJHtqmgBBx3YQ89X99i1p8WlCekkOQLbf3KGQqtETvhLPnASmIJ7t3LROlFLX33MW5PO8LjUviPVt7-iQWdQaasU74DhezYQQ7NnDXbWgurVabheuX3LirNHBLSdK_m3RMdc0Irmm1UDe2G5A7o5MU"/>
+<div class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-slate-400 border-2 border-white dark:border-slate-800 rounded-full"></div>
+</div>
+<div>
+<h3 class="text-sm font-bold text-slate-600 dark:text-slate-400">Sarah Connor</h3>
+<p class="text-[10px] font-semibold text-slate-400 dark:text-slate-500">
+                                Offline - 2h ago
+                            </p>
+</div>
+</div>
+<div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 rounded-lg text-slate-400 hover:text-primary hover:bg-pink-50 dark:hover:bg-pink-900/20 transition-colors">
+<span class="material-icons-round text-lg">mail_outline</span>
+</button>
+<button class="p-1.5 rounded-lg text-slate-400 hover:text-danger hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+<span class="material-icons-round text-lg">person_remove</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-2xl bg-white dark:bg-slate-800/40 border border-slate-100 dark:border-slate-700/50 hover:border-pink-200 dark:hover:border-pink-900/50 transition-all group opacity-75 hover:opacity-100">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-500 dark:text-indigo-300 font-bold text-sm">
+                                TR
+                            </div>
+<div class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-slate-400 border-2 border-white dark:border-slate-800 rounded-full"></div>
+</div>
+<div>
+<h3 class="text-sm font-bold text-slate-600 dark:text-slate-400">Tom Riddle</h3>
+<p class="text-[10px] font-semibold text-slate-400 dark:text-slate-500">
+                                Offline - 5d ago
+                            </p>
+</div>
+</div>
+<div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 rounded-lg text-slate-400 hover:text-primary hover:bg-pink-50 dark:hover:bg-pink-900/20 transition-colors">
+<span class="material-icons-round text-lg">mail_outline</span>
+</button>
+<button class="p-1.5 rounded-lg text-slate-400 hover:text-danger hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+<span class="material-icons-round text-lg">person_remove</span>
+</button>
+</div>
+</div>
+</div>
+<div class="p-6 pt-4 border-t border-slate-100 dark:border-slate-700 mt-auto bg-slate-50 dark:bg-slate-800/50">
+<div class="grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border border-dashed border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-primary hover:text-primary dark:hover:text-primary transition-all text-sm font-bold">
+<span class="material-icons-round text-lg">share</span>
+                    Invite Friend
+                </button>
+<button class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-primary text-white shadow-lg shadow-pink-500/30 hover:shadow-pink-500/40 hover:bg-pink-600 transition-all text-sm font-bold transform hover:-translate-y-0.5">
+<span class="material-icons-round text-lg">videogame_asset</span>
+                    Play Now
+                </button>
+</div>
+</div>
+</div>
+<div class="hidden absolute inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 fade-in" id="add-friend-modal">
+<div class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl p-6 w-full max-w-sm relative">
+<button class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200" onclick="document.getElementById('add-friend-modal').classList.add('hidden')">
+<span class="material-icons-round">close</span>
+</button>
+<h2 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Add Friend</h2>
+<p class="text-xs text-slate-500 dark:text-slate-400 mb-6">Enter a username or share your code.</p>
+<div class="space-y-4">
+<div>
+<label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5 ml-1">Username or Email</label>
+<div class="relative">
+<input class="block w-full pl-4 pr-10 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary text-sm" placeholder="e.g. Gamer123" type="text"/>
+<button class="absolute inset-y-0 right-0 px-3 text-primary font-bold text-sm hover:text-pink-600">
+                                ADD
+                            </button>
+</div>
+</div>
+<div class="relative flex py-2 items-center">
+<div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+<span class="flex-shrink-0 mx-4 text-slate-400 text-xs font-bold">OR</span>
+<div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+</div>
+<div class="text-center">
+<p class="text-xs font-bold text-slate-500 dark:text-slate-400 mb-3">Your Friend Code</p>
+<div class="bg-slate-100 dark:bg-slate-700/50 rounded-xl p-3 flex items-center justify-between border border-dashed border-slate-300 dark:border-slate-600 group cursor-pointer hover:border-primary transition-colors">
+<span class="text-lg font-mono font-bold text-slate-800 dark:text-white tracking-widest ml-2">#8X92K</span>
+<span class="material-icons-round text-slate-400 group-hover:text-primary transition-colors text-lg">content_copy</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Simple interaction for demo purposes
+        document.querySelectorAll('button[title="Remove"]').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation(); // Prevent parent click
+                if(confirm('Remove this friend?')) {
+                    this.closest('.group').remove();
+                }
+            });
+        });
+    </script>
+</body></html>

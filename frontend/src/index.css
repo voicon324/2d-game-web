@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+/* Custom Theme Variables */
+:root {
+  --primary: #ec4899;
+  --primary-hover: #db2777;
+  --secondary: #8b5cf6;
+  --background-light: #f8fafc;
+  --background-dark: #0f172a;
+  --surface-light: #ffffff;
+  --surface-dark: #1e293b;
+  --text-light: #1f2937;
+  --text-dark: #f9fafb;
+}
+
+/* Dot pattern background */
+.bg-dots {
+  background-image: radial-gradient(#cbd5e1 2px, transparent 2px);
+  background-size: 30px 30px;
+}
+.dark .bg-dots {
+  background-image: radial-gradient(#334155 2px, transparent 2px);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+/* Game dot animations */
+.game-dot {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.game-dot:hover {
+  transform: scale(1.15);
+  z-index: 10;
+}
+.game-dot:active {
+  transform: scale(0.95);
+}
+
+/* Dot shadow effect */
+.dot-shadow {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+              0 2px 4px -1px rgba(0, 0, 0, 0.06), 
+              inset 0 -2px 4px rgba(0,0,0,0.1), 
+              inset 0 2px 4px rgba(255,255,255,0.3);
+}
+.dark .dot-shadow {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 
+              inset 0 -2px 4px rgba(0,0,0,0.3), 
+              inset 0 2px 4px rgba(255,255,255,0.1);
+}
+
+/* Board grid background */
+.board-bg {
+  background-image: radial-gradient(circle, transparent 20%, transparent 20%),
+    linear-gradient(#94a3b8 1px, transparent 1px),
+    linear-gradient(90deg, #94a3b8 1px, transparent 1px);
+  background-size: 100% 100%, 8.33% 8.33%, 8.33% 8.33%;
+  background-position: center center;
+}
+.dark .board-bg {
+  background-image: radial-gradient(circle, transparent 20%, transparent 20%),
+    linear-gradient(#475569 1px, transparent 1px),
+    linear-gradient(90deg, #475569 1px, transparent 1px);
+}
+
+/* Fade in animation */
+.fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Glow effect */
+.shadow-glow {
+  box-shadow: 0 0 15px rgba(236, 72, 153, 0.5);
+}
+.shadow-glow-strong {
+  box-shadow: 0 0 25px rgba(236, 72, 153, 0.6);
+}
+
+/* Base font */
+body {
+  font-family: 'Quicksand', 'Poppins', 'Inter', sans-serif;
+}

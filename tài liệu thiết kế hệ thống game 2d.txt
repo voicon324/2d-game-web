@@ -1,0 +1,248 @@
+# TÀI LIỆU THIẾT KẾ HỆ THỐNG GAME 2D (NODEJS + REACT)
+
+## 1. Mục tiêu hệ thống
+
+Hệ thống nhằm xây dựng một **nền tảng game 2D có khả năng mở rộng**, cho phép:
+
+* Người chơi tham gia các game 2D (turn-based hoặc real-time)
+* **Admin có thể trực tiếp viết code để tạo game mới hoặc chỉnh sửa game cũ**
+* Hỗ trợ nhiều loại game: từ game cờ đơn giản đến game real-time như bắn xe tăng
+* Đảm bảo tính **đồng bộ, chống gian lận và ổn định**
+
+---
+
+## 2. Phạm vi
+
+* Backend: NodeJS
+* Frontend: ReactJS
+* Giao tiếp realtime: WebSocket
+* Đồ họa client: Canvas / PixiJS
+* Game logic chạy hoàn toàn phía server
+
+---
+
+## 3. Nguyên tắc thiết kế
+
+### 3.1 Server authoritative
+
+* Server là nguồn sự thật duy nhất (single source of truth)
+* Client không được quyết định logic thắng/thua hay cập nhật state
+
+### 3.2 Tách biệt trách nhiệm
+
+* Engine: điều phối vòng lặp, thời gian, đồng bộ
+* Game Script: logic game cụ thể (admin viết)
+* Client: hiển thị và gửi input
+
+### 3.3 Chuẩn hóa vòng đời game
+
+Mọi game **bắt buộc** tuân theo cùng một vòng đời và interface
+
+---
+
+## 4. Kiến trúc tổng thể
+
+```
+React Client
+ ├── Input Handler
+ ├── Renderer (Canvas/Pixi)
+ └── WebSocket Client
+          │
+          ▼
+NodeJS Server
+ ├── WebSocket Gateway
+ ├── Game Engine
+ │    ├── GameLoop
+ │    ├── BaseGame
+ │    ├── TimeManager
+ │    └── StateSerializer
+ ├── Game Scripts (Admin)
+ └── Sandbox Runner
+```
+
+---
+
+## 5. Game Engine (Server)
+
+### 5.1 Vai trò
+
+Game Engine chịu trách nhiệm:
+
+* Khởi tạo game
+* Chạy game loop
+* Gọi update theo thời gian
+* Nhận và xử lý action từ client
+* Kiểm tra điều kiện thắng/thua
+* Gửi state cho client
+
+---
+
+### 5.2 BaseGame (Interface bắt buộc)
+
+Mọi game do admin viết **phải kế thừa BaseGame** và implement đầy đủ các hàm sau:
+
+* `load(config)` – khởi tạo state ban đầu
+* `handleAction(action, playerId)` – xử lý input từ người chơi
+* `update(dt)` – cập nhật state theo thời gian
+* `isWin()` – kiểm tra thắng/thua
+* `isGameOver()` – xác định game kết thúc hay chưa
+* `getState()` – trả về state để gửi cho client
+
+Ngoài ra mỗi game có thể cấu hình:
+
+* `live`: boolean (real-time hay turn-based)
+* `timePerStep`: thời gian mỗi tick (ms)
+
+---
+
+### 5.3 Game Loop
+
+Game Loop được engine quản lý thống nhất cho mọi game:
+
+* Với game real-time: `update(dt)` được gọi liên tục
+* Với game turn-based: `update` có thể rỗng
+
+Engine **không cần biết chi tiết logic game**.
+
+---
+
+## 6. Game Script (Admin code)
+
+### 6.1 Vai trò admin
+
+Admin có thể:
+
+* Tạo game mới bằng cách viết class kế thừa BaseGame
+* Chỉnh sửa luật chơi, cách thắng, cơ chế update
+
+Admin **không được**:
+
+* Truy cập filesystem
+* Truy cập network
+* Chạy vòng lặp vô hạn
+
+---
+
+### 6.2 Phân loại game
+
+#### Turn-based game
+
+* State chỉ thay đổi khi có action
+* Có thể kết hợp timeout cho mỗi lượt
+
+Ví dụ:
+
+* Cờ vua
+* Cờ caro
+
+#### Live (real-time) game
+
+* State luôn thay đổi theo thời gian
+* Có di chuyển, va chạm, AI
+
+Ví dụ:
+
+* Bắn xe tăng
+* Né đạn
+
+---
+
+## 7. Sandbox cho admin code
+
+### 7.1 Mục đích
+
+* Ngăn admin code gây crash hệ thống
+* Chặn hành vi nguy hiểm
+
+### 7.2 Cơ chế
+
+* Chạy game script trong sandbox (ví dụ: vm2)
+* Giới hạn thời gian thực thi
+* Chỉ expose API cần thiết (BaseGame, math utils)
+
+---
+
+## 8. Giao tiếp Client – Server
+
+### 8.1 Action từ client
+
+Client gửi action dưới dạng JSON:
+
+* Loại action (MOVE, SHOOT, PLACE_PIECE, ...)
+* Dữ liệu liên quan
+
+Server kiểm tra:
+
+* Người chơi hợp lệ
+* Action có hợp lệ với trạng thái hiện tại không
+
+---
+
+### 8.2 State từ server
+
+Server gửi snapshot state định kỳ:
+
+* Vị trí object
+* Trạng thái game
+* Thông tin thắng/thua (nếu có)
+
+Client **chỉ render**, không chỉnh sửa state.
+
+---
+
+## 9. Client (ReactJS)
+
+### 9.1 Trách nhiệm
+
+* Nhận state từ server
+* Vẽ game bằng Canvas/PixiJS
+* Gửi input người chơi
+
+### 9.2 Không làm
+
+* Không xử lý luật game
+* Không quyết định thắng/thua
+
+---
+
+## 10. isWin và Game Over
+
+### 10.1 isWin
+
+* Luôn chạy phía server
+* Trả về thông tin người thắng và lý do
+
+### 10.2 Game Over
+
+Game kết thúc khi:
+
+* `isWin() != null`
+* Hoặc đạt điều kiện hòa
+
+Engine sẽ:
+
+* Dừng game loop
+* Gửi kết quả cho client
+
+---
+
+## 11. Mở rộng trong tương lai
+
+* Multiplayer matchmaking
+* Replay / ghi lại trận đấu
+* AI bot
+* Version hóa game script
+* Admin UI viết code online
+
+---
+
+## 12. Kết luận
+
+Thiết kế này đảm bảo:
+
+* An toàn khi admin viết code
+* Dễ mở rộng nhiều loại game
+* Phù hợp realtime + turn-based
+* Phân tách rõ client / server
+
+Hệ thống có thể phát triển thành một **nền tảng game 2D dạng engine + mod** trong tương lai.

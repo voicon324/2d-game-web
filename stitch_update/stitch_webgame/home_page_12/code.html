@@ -1,0 +1,270 @@
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Help Center - PixelHeart Games</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#ec4899", // Pink color inspired by the heart image
+                        "background-light": "#f3f4f6", // Cool gray for light mode
+                        "background-dark": "#111827", // Dark gray for dark mode
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1f2937",
+                        "text-light": "#1f2937",
+                        "text-dark": "#f9fafb",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                    },
+                },
+            },
+        };
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<script>
+        // Simple script to toggle dark mode for demo purposes
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display min-h-screen transition-colors duration-200">
+<nav class="sticky top-0 z-50 bg-surface-light dark:bg-surface-dark border-b border-gray-200 dark:border-gray-700 shadow-sm">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between h-16">
+<div class="flex">
+<div class="flex-shrink-0 flex items-center">
+<span class="material-icons text-primary text-3xl mr-2">grid_on</span>
+<span class="font-bold text-xl text-text-light dark:text-text-dark tracking-tight">PixelHeart Games</span>
+</div>
+<div class="hidden sm:ml-8 sm:flex sm:space-x-8 items-center">
+<a class="border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-200 px-1 pt-1 text-sm font-medium" href="#">Lobby</a>
+<a class="border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-200 px-1 pt-1 text-sm font-medium" href="#">Leaderboard</a>
+<a class="border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-200 px-1 pt-1 text-sm font-medium" href="#">Tournaments</a>
+<a class="border-b-2 border-primary text-text-light dark:text-text-dark px-1 pt-1 text-sm font-medium" href="#">Help</a>
+</div>
+</div>
+<div class="flex items-center space-x-4">
+<button class="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none" onclick="toggleDarkMode()">
+<span class="material-icons">brightness_4</span>
+</button>
+<button class="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none relative">
+<span class="material-icons">notifications</span>
+<span class="absolute top-1.5 right-1.5 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-gray-800"></span>
+</button>
+<div class="ml-3 relative">
+<div>
+<button class="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" id="user-menu-button" type="button">
+<span class="sr-only">Open user menu</span>
+<img alt="User avatar" class="h-8 w-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHcJKUDPYc3aP3mq-C_bH-DWjRyoothSh7UOPBKJgW68f1Bk_8s64zBs5oYtVJFd-_Mr9aUHGG41Neo24NxDlsFgHeu4am8N6LCdjyEDb-dCZTzUZ6otoHB3dF6q5zK0E24izbfZLfIhbzHeiXAg2aGvK2M2yNFr0JiziOOgLr69Q8U7M0Mr-BDpgOBSl2DCu7fDOMuCMWsu0xQ18rtORLNr7ApPaJbQ3FzmZclkG7vGBYSAnHQOccFjxHU-DyeNe2ewUNqlTbxrI"/>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+<div class="text-center py-12 px-4 sm:px-6 lg:px-8 bg-surface-light dark:bg-surface-dark rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 mb-10 overflow-hidden relative">
+<div class="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/graphy.png')]"></div>
+<div class="relative z-10">
+<h2 class="text-base font-semibold text-primary tracking-wide uppercase">Support</h2>
+<p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-text-light dark:text-text-dark sm:text-4xl">
+                How can we help you today?
+            </p>
+<p class="mt-4 max-w-2xl text-xl text-gray-500 dark:text-gray-400 mx-auto">
+                Search our knowledge base for answers to common questions about gameplay, account settings, and more.
+            </p>
+<div class="mt-8 max-w-xl mx-auto">
+<div class="relative flex items-center">
+<input class="shadow-sm focus:ring-primary focus:border-primary block w-full pr-12 sm:text-lg border-gray-300 dark:border-gray-600 rounded-full py-4 pl-6 bg-white dark:bg-gray-800 text-text-light dark:text-text-dark placeholder-gray-400" id="search" name="search" placeholder="Search for answers (e.g. 'how to join game')" type="text"/>
+<div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
+<button class="inline-flex items-center border border-transparent rounded-full shadow-sm text-white bg-primary hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary p-2" type="submit">
+<span class="material-icons">search</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<div class="lg:col-span-8 space-y-8">
+<section>
+<div class="flex items-center mb-4">
+<span class="material-icons text-primary mr-2">sports_esports</span>
+<h3 class="text-xl font-bold text-text-light dark:text-text-dark">Gameplay &amp; Rules</h3>
+</div>
+<div class="space-y-3">
+<details class="group bg-surface-light dark:bg-surface-dark p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-200">
+<summary class="flex justify-between items-center font-medium cursor-pointer list-none text-text-light dark:text-text-dark">
+<span>How do I create a custom room?</span>
+<span class="transition group-open:rotate-180">
+<span class="material-icons text-gray-400">expand_more</span>
+</span>
+</summary>
+<div class="text-gray-500 dark:text-gray-400 mt-3 text-sm leading-relaxed border-t border-gray-100 dark:border-gray-700 pt-3">
+                            To create a custom room, click on the "Create Custom Room" button in the Lobby header. You can then select the game type, set a password for private games, and configure time limits. Once created, share the room code with your friends.
+                        </div>
+</details>
+<details class="group bg-surface-light dark:bg-surface-dark p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-200">
+<summary class="flex justify-between items-center font-medium cursor-pointer list-none text-text-light dark:text-text-dark">
+<span>What happens if my opponent disconnects?</span>
+<span class="transition group-open:rotate-180">
+<span class="material-icons text-gray-400">expand_more</span>
+</span>
+</summary>
+<div class="text-gray-500 dark:text-gray-400 mt-3 text-sm leading-relaxed border-t border-gray-100 dark:border-gray-700 pt-3">
+                            If an opponent disconnects during a match, they have a 2-minute grace period to reconnect. If they fail to return within that time, you will automatically win the match by forfeiture and receive the corresponding ranking points.
+                        </div>
+</details>
+<details class="group bg-surface-light dark:bg-surface-dark p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-200">
+<summary class="flex justify-between items-center font-medium cursor-pointer list-none text-text-light dark:text-text-dark">
+<span>Are the games turn-based or real-time?</span>
+<span class="transition group-open:rotate-180">
+<span class="material-icons text-gray-400">expand_more</span>
+</span>
+</summary>
+<div class="text-gray-500 dark:text-gray-400 mt-3 text-sm leading-relaxed border-t border-gray-100 dark:border-gray-700 pt-3">
+                            Most of our board games are turn-based but played in real-time sessions. This means you must make your move within a specific timer duration (usually 30 to 60 seconds per turn). Games like "Pixel Dots" require quick thinking!
+                        </div>
+</details>
+</div>
+</section>
+<section>
+<div class="flex items-center mb-4">
+<span class="material-icons text-primary mr-2">manage_accounts</span>
+<h3 class="text-xl font-bold text-text-light dark:text-text-dark">Account &amp; Profile</h3>
+</div>
+<div class="space-y-3">
+<details class="group bg-surface-light dark:bg-surface-dark p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-200">
+<summary class="flex justify-between items-center font-medium cursor-pointer list-none text-text-light dark:text-text-dark">
+<span>How can I change my avatar?</span>
+<span class="transition group-open:rotate-180">
+<span class="material-icons text-gray-400">expand_more</span>
+</span>
+</summary>
+<div class="text-gray-500 dark:text-gray-400 mt-3 text-sm leading-relaxed border-t border-gray-100 dark:border-gray-700 pt-3">
+                            Navigate to your profile by clicking your avatar in the top right corner. Select "Edit Profile" and choose from our library of pixel art avatars or upload your own.
+                        </div>
+</details>
+<details class="group bg-surface-light dark:bg-surface-dark p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-200">
+<summary class="flex justify-between items-center font-medium cursor-pointer list-none text-text-light dark:text-text-dark">
+<span>I forgot my password. How do I reset it?</span>
+<span class="transition group-open:rotate-180">
+<span class="material-icons text-gray-400">expand_more</span>
+</span>
+</summary>
+<div class="text-gray-500 dark:text-gray-400 mt-3 text-sm leading-relaxed border-t border-gray-100 dark:border-gray-700 pt-3">
+                            On the login screen, click "Forgot Password?". Enter your registered email address, and we will send you a secure link to reset your password.
+                        </div>
+</details>
+</div>
+</section>
+<section>
+<div class="flex items-center mb-4">
+<span class="material-icons text-primary mr-2">build</span>
+<h3 class="text-xl font-bold text-text-light dark:text-text-dark">Technical Issues</h3>
+</div>
+<div class="space-y-3">
+<details class="group bg-surface-light dark:bg-surface-dark p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-200">
+<summary class="flex justify-between items-center font-medium cursor-pointer list-none text-text-light dark:text-text-dark">
+<span>The game is lagging. What should I do?</span>
+<span class="transition group-open:rotate-180">
+<span class="material-icons text-gray-400">expand_more</span>
+</span>
+</summary>
+<div class="text-gray-500 dark:text-gray-400 mt-3 text-sm leading-relaxed border-t border-gray-100 dark:border-gray-700 pt-3">
+                            Please ensure you have a stable internet connection. We recommend using Chrome or Firefox for the best performance. If issues persist, try clearing your browser cache or disabling heavy extensions.
+                        </div>
+</details>
+</div>
+</section>
+</div>
+<div class="lg:col-span-4 space-y-6">
+<div class="bg-surface-light dark:bg-surface-dark p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+<h3 class="text-lg font-bold text-text-light dark:text-text-dark mb-2">Can't find what you need?</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mb-6">
+                    If you couldn't find the answer in our FAQ, feel free to submit a new question to our community support team.
+                </p>
+<form action="#">
+<div class="mb-4">
+<label class="block text-sm font-medium text-text-light dark:text-text-dark mb-1" for="question">Your Question</label>
+<textarea class="shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-text-light dark:text-text-dark placeholder-gray-400 p-2" id="question" name="question" placeholder="Type your question here..." rows="3"></textarea>
+</div>
+<button class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors" type="button">
+                        Submit Question
+                    </button>
+</form>
+</div>
+<div class="bg-indigo-50 dark:bg-indigo-900/30 p-6 rounded-lg border border-indigo-100 dark:border-indigo-800">
+<div class="flex items-center mb-3">
+<div class="flex-shrink-0 bg-indigo-100 dark:bg-indigo-900 rounded-full p-2 mr-3">
+<span class="material-icons text-indigo-600 dark:text-indigo-400">support_agent</span>
+</div>
+<h3 class="text-lg font-bold text-indigo-900 dark:text-indigo-200">Contact Support</h3>
+</div>
+<p class="text-sm text-indigo-700 dark:text-indigo-300 mb-4">
+                    Need direct assistance with your account or billing? Our support team is available 24/7.
+                </p>
+<a class="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 flex items-center" href="#">
+                    Open a ticket <span class="material-icons text-sm ml-1">arrow_forward</span>
+</a>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+<h3 class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">Community Resources</h3>
+<ul class="space-y-4">
+<li>
+<a class="flex items-center text-sm text-text-light dark:text-text-dark hover:text-primary dark:hover:text-primary transition-colors group" href="#">
+<span class="material-icons text-gray-400 group-hover:text-primary transition-colors text-lg mr-3">forum</span>
+                            Community Forums
+                        </a>
+</li>
+<li>
+<a class="flex items-center text-sm text-text-light dark:text-text-dark hover:text-primary dark:hover:text-primary transition-colors group" href="#">
+<span class="material-icons text-gray-400 group-hover:text-primary transition-colors text-lg mr-3">discord</span>
+                            Discord Server
+                        </a>
+</li>
+<li>
+<a class="flex items-center text-sm text-text-light dark:text-text-dark hover:text-primary dark:hover:text-primary transition-colors group" href="#">
+<span class="material-icons text-gray-400 group-hover:text-primary transition-colors text-lg mr-3">menu_book</span>
+                            Game Wiki
+                        </a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</main>
+<footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
+<div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8">
+<div class="flex justify-center space-x-6 md:order-2">
+<a class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300" href="#">
+<span class="sr-only">Facebook</span>
+<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+<path clip-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" fill-rule="evenodd"></path>
+</svg>
+</a>
+<a class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300" href="#">
+<span class="sr-only">GitHub</span>
+<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+<path clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" fill-rule="evenodd"></path>
+</svg>
+</a>
+</div>
+<div class="mt-8 md:mt-0 md:order-1">
+<p class="text-center text-base text-gray-400">
+                    © 2023 PixelHeart Games, Inc. All rights reserved.
+                </p>
+</div>
+</div>
+</footer>
+</body></html>

@@ -30,6 +30,17 @@ global.localStorage = localStorageMock;
 // Mock fetch
 global.fetch = vi.fn();
 
+// Mock Monaco Editor
+vi.mock('@monaco-editor/react', () => ({
+  default: ({ value, onChange }) => (
+    <textarea 
+      role="textbox"
+      value={value} 
+      onChange={e => onChange(e.target.value)} 
+    />
+  ),
+}));
+
 const mockGame = {
   _id: 'game123',
   name: 'Test Game',

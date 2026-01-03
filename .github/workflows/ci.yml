@@ -140,6 +140,7 @@ jobs:
       env:
           CI: true
           VITE_API_URL: http://127.0.0.1:3002/api
+          VITE_SOCKET_URL: http://127.0.0.1:3002
       run: npx playwright test
       
     - name: Show Backend Logs and Process Info on Failure

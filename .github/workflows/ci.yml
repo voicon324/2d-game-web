@@ -114,7 +114,12 @@ jobs:
       run: |
         npm run seed
         nohup npm start > backend.log 2>&1 &
-        npx wait-on http://localhost:3001/api/health
+        npx wait-on -t 60000 http-get://localhost:3001/api/health
+
+    - name: Show Backend Logs on Failure
+      if: failure()
+      working-directory: ./backend
+      run: cat backend.log
       
     - name: Install Frontend Dependencies
       working-directory: ./frontend

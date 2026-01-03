@@ -38,7 +38,7 @@ jobs:
     - name: Run Backend Tests
       working-directory: ./backend
       env:
-        MONGODB_URI: mongodb://localhost:27017/game2d_test
+        MONGODB_URI_TEST: mongodb://localhost:27017/game2d_test
         PORT: 3001
         JWT_SECRET: test-secret
       run: npm test

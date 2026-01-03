@@ -114,7 +114,13 @@ jobs:
       run: |
         npm run seed
         nohup npm start > backend.log 2>&1 &
-        npx wait-on -t 60000 http-get://127.0.0.1:3001/api/health
+        echo "Server started with PID $!"
+        sleep 10
+        echo "=== BACKEND LOGS (Startup) ==="
+        cat backend.log
+        echo "=============================="
+        npx wait-on -t 30000 tcp:127.0.0.1:3001
+        npx wait-on -t 30000 http-get://127.0.0.1:3001/api/health
 
     - name: Show Backend Logs on Failure
       if: failure()

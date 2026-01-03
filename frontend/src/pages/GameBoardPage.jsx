@@ -67,7 +67,8 @@ export default function GameBoardPage() {
     memory: { name: 'Memory Chess', icon: 'grid_view', boardSize: 6 },
     drawing: { name: 'Free Drawing', icon: 'brush', boardSize: 16 },
     chess: { name: 'Cờ Vua', icon: 'chess', boardSize: 8 },
-    dots: { name: 'Pixel Dots', icon: 'apps', boardSize: 13 }
+    dots: { name: 'Pixel Dots', icon: 'apps', boardSize: 13 },
+    snake: { name: 'Snake', icon: 'all_inclusive', boardSize: 20 }
   };
   const currentGame = gameInfo[effectiveGameType] || gameInfo.caro;
 
@@ -130,9 +131,9 @@ export default function GameBoardPage() {
     setIsPlayerReady(true);
   };
   
-  // Handle keyboard controls for Tank game
+  // Handle keyboard controls for Tank and Snake game
   useEffect(() => {
-    if (!roomInfo?.roomCode || effectiveGameType !== 'tank' || !gameState) return;
+    if (!roomInfo?.roomCode || !['tank', 'snake'].includes(effectiveGameType) || !gameState) return;
 
     const handleKeyDown = (e) => {
       // Prevent scrolling
@@ -176,8 +177,8 @@ export default function GameBoardPage() {
   };
   
   // Check if it's current user's turn
-  // For live games (drawing, tank), it's always "my turn" if I'm a player
-  const isLiveGame = ['drawing', 'tank'].includes(effectiveGameType);
+  // For live games (drawing, tank, snake), it's always "my turn" if I'm a player
+  const isLiveGame = ['drawing', 'tank', 'snake'].includes(effectiveGameType);
   const isMyTurn = isLiveGame || gameState?.currentPlayer?.id === user?._id;
   
   // Get my symbol/info

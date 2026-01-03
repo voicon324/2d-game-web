@@ -164,6 +164,27 @@ const CELL_RENDERERS = {
         );
     }
     return null;
+  },
+
+  // Snake Game Renderer
+  snake: (value) => {
+      if (!value) return null;
+
+      if (value.type === 'FOOD') {
+          return (
+             <div className="w-4/5 h-4/5 bg-red-500 rounded-full shadow-[0_0_8px_rgba(239,68,68,0.6)] animate-pulse" />
+          );
+      }
+
+      if (value.type === 'SNAKE') {
+          return (
+              <div 
+                  className="w-full h-full rounded-sm"
+                  style={{ backgroundColor: value.color || '#22c55e' }}
+              />
+          );
+      }
+      return null;
   }
 };
 
@@ -177,7 +198,9 @@ const BOARD_STYLES = {
   connect4: 'gap-2 bg-blue-700 p-4 rounded-xl',
   match3: 'gap-1 bg-slate-800/50 p-2 rounded-xl backdrop-blur-sm',
   memory: 'gap-3 bg-slate-200 dark:bg-slate-800 p-4',
-  drawing: 'gap-0 border border-slate-300 dark:border-slate-700 shadow-inner bg-white'
+  memory: 'gap-3 bg-slate-200 dark:bg-slate-800 p-4',
+  drawing: 'gap-0 border border-slate-300 dark:border-slate-700 shadow-inner bg-white',
+  snake: 'bg-slate-900 border-4 border-slate-700'
 };
 
 export default function GameRenderer({
@@ -322,6 +345,12 @@ export default function GameRenderer({
         <div className="mt-4 text-center text-sm text-slate-500 dark:text-slate-400">
              <span className="material-icons text-base align-middle mr-1">brush</span>
              Click to paint pixels.
+        </div>
+      )}
+
+      {gameType === 'snake' && (
+        <div className="mt-4 text-center text-sm text-slate-500 dark:text-slate-400">
+             Use Arrow Keys to move. Eat apples! 🍎
         </div>
       )}
 

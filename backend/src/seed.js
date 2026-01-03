@@ -110,6 +110,20 @@ const games = [
       live: true,
       boardSize: 32
     }
+  },
+  {
+    name: 'Snake',
+    slug: 'snake',
+    description: 'Rắn săn mồi cổ điển! Ăn mồi để lớn lên, tránh đâm vào đuôi.',
+    type: 'real-time',
+    minPlayers: 1,
+    maxPlayers: 4,
+    thumbnail: 'https://images.unsplash.com/photo-1628277613967-6ab58cf56736?w=400&q=80',
+    config: {
+      live: true,
+      timePerStep: 150,
+      boardSize: 20
+    }
   }
 ];
 

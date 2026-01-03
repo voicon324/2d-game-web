@@ -10,6 +10,7 @@ import Connect4 from '../games/Connect4.js';
 import Match3 from '../games/Match3.js';
 import Memory from '../games/Memory.js';
 import Drawing from '../games/Drawing.js';
+import SnakeGame from '../games/SnakeGame.js';
 import { initMatchmakingHandlers, updateRatingsAfterGame } from './matchmakingHandler.js';
 import jwt from 'jsonwebtoken';
 
@@ -24,7 +25,8 @@ const gameRegistry = {
   'connect4': Connect4,
   'match3': Match3,
   'memory': Memory,
-  'drawing': Drawing
+  'drawing': Drawing,
+  'snake': SnakeGame
 };
 
 /**

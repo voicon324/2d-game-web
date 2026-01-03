@@ -151,9 +151,9 @@ jobs:
       
     - name: Test Docker Compose
       run: |
-        docker-compose build
-        docker-compose up -d mongodb backend frontend
+        docker compose build
+        docker compose up -d mongodb backend frontend
         sleep 10
         curl -f http://localhost:3001/api/health || exit 1
-        docker-compose down
+        docker compose down
 

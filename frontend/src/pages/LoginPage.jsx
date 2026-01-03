@@ -61,7 +61,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="bg-slate-50 dark:bg-slate-900 bg-dots min-h-screen flex flex-col transition-colors duration-300 relative font-[Quicksand]">
+    <div className="bg-dots min-h-screen flex flex-col transition-colors duration-300 relative font-[Quicksand]">
       {/* Toast Notification */}
       <Toast
         type="error"

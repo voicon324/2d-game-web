@@ -64,8 +64,13 @@ export default function HomePage() {
   };
 
   const handleSelectGame = (game) => {
-    if (game.status === 'maintenance') return;
+    console.log('handleSelectGame called with:', game);
+    if (game.status === 'maintenance') {
+      console.log('Game is in maintenance');
+      return;
+    }
     setSelectedGame(game);
+    console.log('selectedGame set to:', game);
   };
 
   const handleCreateRoom = async () => {
@@ -81,7 +86,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-900 font-[Inter] min-h-screen transition-colors duration-200">
+    <div className="font-[Inter] min-h-screen transition-colors duration-200">
       <Navbar />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -234,6 +239,7 @@ export default function HomePage() {
                 </div>
                 
                 {/* Step 2: Room Settings */}
+                {console.log('Rendering Step 2, selectedGame:', selectedGame)}
                 {selectedGame && (
                   <div className="mb-6">
                     <h3 className="text-sm font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-4 flex items-center gap-2">

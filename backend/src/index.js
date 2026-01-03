@@ -10,6 +10,8 @@ import userRoutes from './routes/users.js';
 import gameRoutes from './routes/games.js';
 import tournamentRoutes from './routes/tournaments.js';
 import matchRoutes from './routes/matches.js';
+import matchmakingRoutes from './routes/matchmaking.js';
+import replayRoutes from './routes/replays.js';
 import { initSocketHandlers } from './websocket/gameHandler.js';
 
 // Initialize express
@@ -17,9 +19,15 @@ const app = express();
 const httpServer = createServer(app);
 
 // Initialize Socket.IO
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  process.env.CORS_ORIGIN
+].filter(Boolean);
+
 const io = new Server(httpServer, {
   cors: {
-    origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+    origin: allowedOrigins,
     methods: ['GET', 'POST'],
     credentials: true
   }
@@ -27,7 +35,7 @@ const io = new Server(httpServer, {
 
 // Middleware
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  origin: allowedOrigins,
   credentials: true
 }));
 app.use(express.json());
@@ -38,6 +46,8 @@ app.use('/api/users', userRoutes);
 app.use('/api/games', gameRoutes);
 app.use('/api/tournaments', tournamentRoutes);
 app.use('/api/matches', matchRoutes);
+app.use('/api/matchmaking', matchmakingRoutes);
+app.use('/api/replays', replayRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

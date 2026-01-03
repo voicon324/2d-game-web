@@ -79,6 +79,106 @@ router.put('/:id', protect, admin, async (req, res) => {
   }
 });
 
+// @route   GET /api/games/:id/script (Admin only)
+// @desc    Get game with script code for editing
+// @access  Admin
+router.get('/:id/script', protect, admin, async (req, res) => {
+  try {
+    const game = await Game.findById(req.params.id);
+    if (!game) {
+      return res.status(404).json({ message: 'Game not found' });
+    }
+    res.json({
+      _id: game._id,
+      name: game.name,
+      slug: game.slug,
+      type: game.type,
+      config: game.config,
+      scriptCode: game.scriptCode || ''
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// @route   POST /api/games/:id/script/validate (Admin only)
+// @desc    Validate a script without saving
+// @access  Admin
+router.post('/:id/script/validate', protect, admin, async (req, res) => {
+  try {
+    const { scriptCode } = req.body;
+    
+    if (!scriptCode) {
+      return res.json({ valid: false, error: 'Script code is required' });
+    }
+    
+    // Check for dangerous patterns
+    const dangerousPatterns = [
+      { pattern: /require\s*\(/, message: 'require() is not allowed' },
+      { pattern: /import\s+/, message: 'import statements are not allowed' },
+      { pattern: /process\./, message: 'process object is not allowed' },
+      { pattern: /global\./, message: 'global object is not allowed' },
+      { pattern: /eval\s*\(/, message: 'eval() is not allowed' },
+      { pattern: /Function\s*\(/, message: 'Function constructor is not allowed' },
+      { pattern: /\.constructor/, message: '.constructor access is not allowed' },
+      { pattern: /__proto__/, message: '__proto__ access is not allowed' }
+    ];
+    
+    for (const { pattern, message } of dangerousPatterns) {
+      if (pattern.test(scriptCode)) {
+        return res.json({ valid: false, error: message });
+      }
+    }
+    
+    // Check if script defines a Game class
+    if (!scriptCode.includes('class Game')) {
+      return res.json({ valid: false, error: 'Script must define a Game class' });
+    }
+    
+    if (!scriptCode.includes('extends BaseGame')) {
+      return res.json({ valid: false, error: 'Game class must extend BaseGame' });
+    }
+    
+    // Try basic syntax check
+    try {
+      new Function(scriptCode);
+      res.json({ valid: true, message: 'Script syntax is valid!' });
+    } catch (syntaxError) {
+      res.json({ valid: false, error: `Syntax error: ${syntaxError.message}` });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// @route   PUT /api/games/:id/script (Admin only)
+// @desc    Update game script code
+// @access  Admin
+router.put('/:id/script', protect, admin, async (req, res) => {
+  try {
+    const { scriptCode } = req.body;
+    
+    const game = await Game.findByIdAndUpdate(
+      req.params.id,
+      { scriptCode },
+      { new: true }
+    );
+    
+    if (!game) {
+      return res.status(404).json({ message: 'Game not found' });
+    }
+    
+    res.json({
+      _id: game._id,
+      name: game.name,
+      scriptCode: game.scriptCode,
+      message: 'Script saved successfully'
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // @route   GET /api/games/:slug/rooms
 // @desc    Get active rooms for a game
 // @access  Public

@@ -54,6 +54,7 @@ export default function CaroBoard({
     return (
       <button
         key={`${x}-${y}`}
+        data-testid={`cell-${x}-${y}`}
         onClick={() => handleCellClick(x, y)}
         onMouseEnter={() => setHoverCell({ x, y })}
         onMouseLeave={() => setHoverCell(null)}

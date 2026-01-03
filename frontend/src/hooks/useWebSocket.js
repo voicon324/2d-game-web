@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { io } from 'socket.io-client';
 
-const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:3001';
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://127.0.0.1:3002';
 
 /**
  * Custom hook for WebSocket game connection
@@ -11,6 +11,7 @@ export function useWebSocket() {
   const [isConnected, setIsConnected] = useState(false);
   const [roomInfo, setRoomInfo] = useState(null);
   const [gameState, setGameState] = useState(null);
+  const [chatMessages, setChatMessages] = useState([]);
   const [error, setError] = useState(null);
   const [isGameOver, setIsGameOver] = useState(false);
   const [gameResult, setGameResult] = useState(null);
@@ -101,6 +102,11 @@ export function useWebSocket() {
       console.error('Invalid action:', actionError);
       setError(actionError);
     });
+
+    // Chat event
+    socket.on('room:chat', (msg) => {
+      setChatMessages(prev => [...prev, msg]);
+    });
     
     return () => {
       socket.disconnect();
@@ -127,6 +133,12 @@ export function useWebSocket() {
   // Join a game room (matches backend 'room:join')
   const joinRoom = useCallback((roomCode) => {
     if (socketRef.current) {
+      // Clear previous state before joining new room
+      setRoomInfo(null);
+      setGameState(null);
+      setIsGameOver(false);
+      setGameResult(null);
+      
       socketRef.current.emit('room:join', { roomCode });
     }
   }, []);
@@ -163,6 +175,13 @@ export function useWebSocket() {
       socketRef.current.emit('room:spectate', { roomCode });
     }
   }, []);
+
+  // Send chat message
+  const sendChat = useCallback((message) => {
+    if (socketRef.current) {
+      socketRef.current.emit('room:chat', { message });
+    }
+  }, []);
   
   // Clear error
   const clearError = useCallback(() => {
@@ -183,6 +202,8 @@ export function useWebSocket() {
     setReady,
     sendAction,
     spectate,
+    chatMessages,
+    sendChat,
     clearError
   };
 }

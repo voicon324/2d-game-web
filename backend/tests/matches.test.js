@@ -26,7 +26,8 @@ describe('Matches API', () => {
     const game = await Game.create({
       name: 'Match Test Game',
       slug: 'matchgame',
-      type: 'turn-based'
+      type: 'turn-based',
+      isActive: true
     });
     gameId = game._id;
 

@@ -61,6 +61,7 @@ class ApiService {
       body: JSON.stringify({ username, email, password })
     });
     this.setToken(data.token);
+    this.setCurrentUser(data);
     return data;
   }
 
@@ -70,6 +71,7 @@ class ApiService {
       body: JSON.stringify({ email, password })
     });
     this.setToken(data.token);
+    this.setCurrentUser(data);
     return data;
   }
 

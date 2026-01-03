@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3002';
 
 /**
  * API Service for backend communication
@@ -63,6 +63,30 @@ export const authApi = {
     });
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+  },
+
+  googleLogin: async (idToken) => {
+    const data = await fetchWithAuth('/api/auth/google', {
+      method: 'POST',
+      body: JSON.stringify({ idToken })
+    });
+    if (data.token) {
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data));
+    }
+    return data;
+  },
+
+  facebookLogin: async (accessToken, userID) => {
+    const data = await fetchWithAuth('/api/auth/facebook', {
+      method: 'POST',
+      body: JSON.stringify({ accessToken, userID })
+    });
+    if (data.token) {
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data));
+    }
+    return data;
   },
   
   getCurrentUser: () => {

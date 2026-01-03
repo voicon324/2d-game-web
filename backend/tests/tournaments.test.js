@@ -24,7 +24,6 @@ describe('Tournaments API', () => {
     await Game.deleteMany({});
     await Tournament.deleteMany({});
 
-    // Create User & Token
     const user = await User.create({
       username: 'tourneyuser',
       email: 'tourney@test.com',
@@ -36,14 +35,13 @@ describe('Tournaments API', () => {
       .send({ email: 'tourney@test.com', password: 'password123' });
     token = loginRes.body.token;
 
-    // Create Game
     const game = await Game.create({
       name: 'Test Game',
       slug: 'testgame',
-      type: 'turn-based'
+      type: 'turn-based',
+      isActive: true
     });
 
-    // Create Tournament
     const tournament = await Tournament.create({
       name: 'Test Championship',
       game: game._id,
@@ -51,7 +49,8 @@ describe('Tournaments API', () => {
       prize: '$1000',
       startDate: new Date(),
       endDate: new Date(Date.now() + 86400000),
-      createdBy: user._id
+      createdBy: user._id,
+      maxParticipants: 16  // Added required field
     });
     tournamentId = tournament._id;
   });
@@ -74,18 +73,15 @@ describe('Tournaments API', () => {
       expect(res.statusCode).toBe(200);
       expect(res.body.participants).toHaveLength(1);
       
-      // Verify DB
       const updated = await Tournament.findById(tournamentId);
       expect(updated.participants).toHaveLength(1);
     });
 
     test('should prevent double joining', async () => {
-      // First join
       await request(app)
         .post(`/api/tournaments/${tournamentId}/join`)
         .set('Authorization', `Bearer ${token}`);
         
-      // Second join
       const res = await request(app)
         .post(`/api/tournaments/${tournamentId}/join`)
         .set('Authorization', `Bearer ${token}`);

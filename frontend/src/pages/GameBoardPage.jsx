@@ -3,6 +3,7 @@ import { Link, useParams, useSearchParams } from 'react-router-dom';
 import ThemeToggle from '../components/ThemeToggle';
 import Button from '../components/Button';
 import GameRenderer from '../components/GameRenderer';
+import ChatComponent from '../components/ChatComponent';
 import useWebSocket from '../hooks/useWebSocket';
 
 /**
@@ -43,6 +44,8 @@ export default function GameBoardPage() {
     leaveRoom,
     setReady,
     sendAction,
+    chatMessages,
+    sendChat,
     clearError
   } = useWebSocket();
   
@@ -50,30 +53,75 @@ export default function GameBoardPage() {
   const [isPlayerReady, setIsPlayerReady] = useState(false);
   const [joinInput, setJoinInput] = useState('');
   
+  // Determine effective game type
+  // Prioritize game type from connected room info (if available) over URL param
+  const effectiveGameType = roomInfo?.game?.slug || gameType;
+
+  // Game info based on type
+  const gameInfo = {
+    caro: { name: 'Cờ Caro', icon: 'grid_view', boardSize: 15 },
+    tank: { name: 'Tank Battle', icon: 'sports_esports', boardSize: 20 },
+    tictactoe: { name: 'Tic Tac Toe', icon: 'grid_view', boardSize: 3 },
+    connect4: { name: 'Connect 4', icon: 'grid_view', boardSize: 7 },
+    match3: { name: 'Candy Rush', icon: 'grid_view', boardSize: 8 },
+    memory: { name: 'Memory Chess', icon: 'grid_view', boardSize: 6 },
+    drawing: { name: 'Free Drawing', icon: 'brush', boardSize: 16 },
+    chess: { name: 'Cờ Vua', icon: 'chess', boardSize: 8 },
+    dots: { name: 'Pixel Dots', icon: 'apps', boardSize: 13 }
+  };
+  const currentGame = gameInfo[effectiveGameType] || gameInfo.caro;
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!user) {
+      window.location.href = '/login'; 
+    }
+  }, [user]);
+
   // Connect on mount
   useEffect(() => {
-    connect();
+    if (user) {
+        connect();
+    }
     return () => disconnect();
-  }, [connect, disconnect]);
+  }, [connect, disconnect, user]);
   
   // Auto-join room if provided
   useEffect(() => {
     if (isConnected && roomCode) {
       joinRoom(roomCode);
+      // Don't set isLoading(false) here, wait for roomInfo to arrive
+    } else if (isConnected && !roomCode) {
+      // If no room code, we are done loading (show join form)
       setIsLoading(false);
-    } else if (isConnected) {
+    } else if (error) {
+       setIsLoading(false);
+    }
+  }, [isConnected, roomCode, joinRoom, error]);
+
+  // Stop loading when roomInfo or error arrives
+  useEffect(() => {
+    if (roomInfo) {
       setIsLoading(false);
     }
-  }, [isConnected, roomCode, joinRoom]);
+  }, [roomInfo]);
   
   // Handle cell click
   const handleCellClick = useCallback((x, y) => {
     if (!roomInfo?.roomCode) return;
-    sendAction({
+    
+    const action = {
       type: 'PLACE',
       data: { x, y }
-    });
-  }, [roomInfo?.roomCode, sendAction]);
+    };
+    
+    // For drawing, we can add color
+    if (effectiveGameType === 'drawing') {
+        action.data.color = '#000000'; // Default color
+    }
+    
+    sendAction(action);
+  }, [roomInfo?.roomCode, effectiveGameType, sendAction]);
   
   // Handle ready
   const handleReady = () => {
@@ -82,6 +130,43 @@ export default function GameBoardPage() {
     setIsPlayerReady(true);
   };
   
+  // Handle keyboard controls for Tank game
+  useEffect(() => {
+    if (!roomInfo?.roomCode || effectiveGameType !== 'tank' || !gameState) return;
+
+    const handleKeyDown = (e) => {
+      // Prevent scrolling
+      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '].includes(e.key)) {
+        e.preventDefault();
+      }
+
+      switch (e.key.toLowerCase()) {
+        case 'w':
+        case 'arrowup':
+          sendAction({ type: 'MOVE', data: { direction: 'UP' } });
+          break;
+        case 's':
+        case 'arrowdown':
+          sendAction({ type: 'MOVE', data: { direction: 'DOWN' } });
+          break;
+        case 'a':
+        case 'arrowleft':
+          sendAction({ type: 'MOVE', data: { direction: 'LEFT' } });
+          break;
+        case 'd':
+        case 'arrowright':
+          sendAction({ type: 'MOVE', data: { direction: 'RIGHT' } });
+          break;
+        case ' ':
+          sendAction({ type: 'SHOOT', data: {} });
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [roomInfo, effectiveGameType, gameState, sendAction]);
+
   // Handle join room
   const handleJoinRoom = (e) => {
     e.preventDefault();
@@ -91,19 +176,12 @@ export default function GameBoardPage() {
   };
   
   // Check if it's current user's turn
-  const isMyTurn = gameState?.currentPlayer?.id === user?._id;
+  // For live games (drawing, tank), it's always "my turn" if I'm a player
+  const isLiveGame = ['drawing', 'tank'].includes(effectiveGameType);
+  const isMyTurn = isLiveGame || gameState?.currentPlayer?.id === user?._id;
   
   // Get my symbol/info
   const myPlayer = gameState?.players?.find(p => p.id === user?._id);
-
-  
-  // Game info based on type
-  const gameInfo = {
-    caro: { name: 'Cờ Caro', icon: 'grid_view', boardSize: 15 },
-    chess: { name: 'Cờ Vua', icon: 'chess', boardSize: 8 },
-    dots: { name: 'Pixel Dots', icon: 'apps', boardSize: 13 }
-  };
-  const currentGame = gameInfo[gameType] || gameInfo.caro;
 
   // Loading Overlay
   if (isLoading) {
@@ -301,7 +379,7 @@ export default function GameBoardPage() {
               <div className="w-full h-full bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-inner overflow-hidden p-2 sm:p-3 flex items-center justify-center">
                 {gameState?.board ? (
                   <GameRenderer
-                    gameType={gameType}
+                    gameType={effectiveGameType}
                     gameState={gameState}
                     boardSize={gameState.boardSize || currentGame.boardSize}
                     isMyTurn={isMyTurn}
@@ -336,6 +414,14 @@ export default function GameBoardPage() {
                 How to play {currentGame.name}
               </Link>
             </div>
+
+            {/* Chat */}
+            <ChatComponent 
+              isActive={true}
+              messages={chatMessages} 
+              onSendMessage={sendChat}
+              user={user}
+            />
           </aside>
         </main>
       )}

@@ -1,4 +1,5 @@
 import ThemeToggle from '../components/ThemeToggle';
+import { useNavigate } from 'react-router-dom';
 
 const STATS = [
   { icon: 'videogame_asset', value: '1,240', label: 'Games Played', bgColor: 'bg-blue-100 dark:bg-blue-900/30', textColor: 'text-blue-500' },
@@ -42,11 +43,23 @@ const RECENT_ACTIVITY = [
 ];
 
 export default function ProfilePage() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    navigate('/login');
+  };
+
   return (
     <div className="bg-slate-50 dark:bg-slate-900 bg-dots min-h-screen flex flex-col transition-colors duration-300 font-[Quicksand]">
       {/* Top Nav */}
       <nav className="absolute top-0 right-0 p-4 sm:p-6 z-10 flex gap-3">
-        <button className="p-2.5 rounded-full bg-white dark:bg-slate-800 shadow-md hover:scale-105 active:scale-95 transition-all text-slate-600 dark:text-slate-300 ring-1 ring-slate-200 dark:ring-slate-700">
+        <button 
+          onClick={handleLogout}
+          data-testid="logout-button"
+          className="p-2.5 rounded-full bg-white dark:bg-slate-800 shadow-md hover:scale-105 active:scale-95 transition-all text-slate-600 dark:text-slate-300 ring-1 ring-slate-200 dark:ring-slate-700"
+        >
           <span className="material-icons-round text-xl">logout</span>
         </button>
         <ThemeToggle />

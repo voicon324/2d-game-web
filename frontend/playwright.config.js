@@ -7,7 +7,7 @@ export default defineConfig({
     timeout: 5000
   },
   fullyParallel: true,
-  reporter: 'list',
+  reporter: [['list'], ['json', { outputFile: 'test-results/report.json' }]],
   use: {
     baseURL: 'http://localhost:5173', // Vite default port
     trace: 'on-first-retry',

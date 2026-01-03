@@ -38,6 +38,78 @@ const games = [
       boardWidth: 800,
       boardHeight: 600
     }
+  },
+  {
+    name: 'Tic Tac Toe',
+    slug: 'tictactoe',
+    description: 'Cờ Caro mini 3x3 - Dành cho người thích sự nhanh gọn!',
+    type: 'turn-based',
+    minPlayers: 2,
+    maxPlayers: 2,
+    thumbnail: 'https://images.unsplash.com/photo-1611195974226-a6a9be9dd763?w=400&q=80',
+    config: {
+      live: false,
+      turnTimeout: 15000,
+      boardSize: 3,
+      winLength: 3
+    }
+  },
+  {
+    name: 'Connect 4',
+    slug: 'connect4',
+    description: 'Xếp 4 quân liên tiếp theo chiều dọc, ngang hoặc chéo. Có yếu tố trọng lực!',
+    type: 'turn-based',
+    minPlayers: 2,
+    maxPlayers: 2,
+    thumbnail: 'https://images.unsplash.com/photo-1606167668584-78701c57f13d?w=400&q=80',
+    config: {
+      live: false,
+      turnTimeout: 30000,
+      rows: 6,
+      cols: 7,
+      winLength: 4
+    }
+  },
+  {
+    name: 'Candy Rush',
+    slug: 'match3',
+    description: 'Xếp 3 viên kẹo cùng màu để ghi điểm! Ai nhiều điểm hơn sẽ thắng.',
+    type: 'turn-based', // Or real-time? Plan says turn-based but commonly solo/versus. BaseGame supports turn.
+    minPlayers: 2,
+    maxPlayers: 2,
+    thumbnail: 'https://images.unsplash.com/photo-1582226625376-b5a48643e41c?w=400&q=80',
+    config: {
+      live: false,
+      turnTimeout: 60000,
+      size: 8
+    }
+  },
+  {
+    name: 'Memory Chess',
+    slug: 'memory',
+    description: 'Lật hình tìm cặp giống nhau. Kiểm tra trí nhớ của bạn!',
+    type: 'turn-based',
+    minPlayers: 2,
+    maxPlayers: 2,
+    thumbnail: 'https://images.unsplash.com/photo-1630948958742-5f69be398b72?w=400&q=80',
+    config: {
+      live: false,
+      turnTimeout: 20000,
+      boardSize: 6
+    }
+  },
+  {
+    name: 'Free Drawing',
+    slug: 'drawing',
+    description: 'Vẽ tự do cùng bạn bè! Sáng tạo không giới hạn.',
+    type: 'real-time',
+    minPlayers: 1, // Can play alone
+    maxPlayers: 10,
+    thumbnail: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=400&q=80',
+    config: {
+      live: true,
+      boardSize: 32
+    }
   }
 ];
 

@@ -19,8 +19,20 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: function() {
+      return !this.googleId && !this.facebookId;
+    },
     minlength: 6
+  },
+  googleId: {
+    type: String,
+    unique: true,
+    sparse: true
+  },
+  facebookId: {
+    type: String,
+    unique: true,
+    sparse: true
   },
   role: {
     type: String,
@@ -55,14 +67,25 @@ const userSchema = new mongoose.Schema({
       ref: 'User'
     },
     createdAt: { type: Date, default: Date.now }
-  }]
+  }],
+  // Per-game ELO ratings for matchmaking
+  ratings: {
+    type: Map,
+    of: {
+      rating: { type: Number, default: 1000 },
+      gamesPlayed: { type: Number, default: 0 },
+      wins: { type: Number, default: 0 },
+      losses: { type: Number, default: 0 }
+    },
+    default: {}
+  }
 }, {
   timestamps: true
 });
 
 // Hash password before saving
 userSchema.pre('save', async function(next) {
-  if (!this.isModified('password')) return next();
+  if (!this.password || !this.isModified('password')) return next();
   this.password = await bcrypt.hash(this.password, 12);
   next();
 });

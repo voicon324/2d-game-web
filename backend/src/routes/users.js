@@ -76,7 +76,7 @@ router.post('/friends/:username', protect, async (req, res) => {
     
     // Check if request already sent
     const alreadySent = targetUser.friendRequests.some(
-      req => req.from.toString() === req.user._id.toString()
+      r => r.from.toString() === req.user._id.toString()
     );
     if (alreadySent) {
       return res.status(400).json({ message: 'Request already sent' });

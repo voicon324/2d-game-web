@@ -1,18 +1,30 @@
 import Match from '../models/Match.js';
 import Game from '../models/Game.js';
 import User from '../models/User.js';
+import Replay from '../models/Replay.js';
 import GameLoop from '../engine/GameLoop.js';
 import CaroGame from '../games/CaroGame.js';
 import TankGame from '../games/TankGame.js';
+import TicTacToe from '../games/TicTacToe.js';
+import Connect4 from '../games/Connect4.js';
+import Match3 from '../games/Match3.js';
+import Memory from '../games/Memory.js';
+import Drawing from '../games/Drawing.js';
+import { initMatchmakingHandlers, updateRatingsAfterGame } from './matchmakingHandler.js';
 import jwt from 'jsonwebtoken';
 
-// Active game sessions
+// Active game sessions with replay data
 const activeGames = new Map();
 
 // Game class registry
 const gameRegistry = {
   'caro': CaroGame,
-  'tank': TankGame
+  'tank': TankGame,
+  'tictactoe': TicTacToe,
+  'connect4': Connect4,
+  'match3': Match3,
+  'memory': Memory,
+  'drawing': Drawing
 };
 
 /**
@@ -94,6 +106,11 @@ export const initSocketHandlers = (io) => {
         
         // Notify room
         await match.populate('players.user', 'username avatar');
+        // Ensure game is fully populated
+        if (!match.game.slug) await match.populate('game');
+        
+        console.log(`Sending room update for ${match.game.slug} (${match.roomCode})`);
+
         io.to(`room:${roomCode}`).emit('room:updated', {
           match: match.toObject(),
           players: match.players
@@ -137,13 +154,14 @@ export const initSocketHandlers = (io) => {
           await match.save();
           
           await match.populate('players.user', 'username avatar');
+          await match.populate('game');
           io.to(`room:${socket.currentRoom}`).emit('room:updated', {
             match: match.toObject()
           });
           
           // Check if all players ready to start game
           const allReady = match.players.every(p => p.isReady);
-          const enoughPlayers = match.players.length >= 2;
+          const enoughPlayers = match.players.length >= (match.game.minPlayers || 2);
           
           if (allReady && enoughPlayers && match.status === 'waiting') {
             await startGame(socket.currentRoom, io);
@@ -155,7 +173,7 @@ export const initSocketHandlers = (io) => {
     });
     
     /**
-     * Send game action
+     * Send game action - with replay recording
      */
     socket.on('game:action', async ({ action }) => {
       if (!socket.currentRoom) return;
@@ -167,6 +185,17 @@ export const initSocketHandlers = (io) => {
       }
       
       const result = gameSession.loop.handleAction(action, socket.user._id.toString());
+      
+      if (result.success && gameSession.replayActions) {
+        // Record action for replay
+        const timestamp = Date.now() - gameSession.startTime;
+        gameSession.replayActions.push({
+          playerId: socket.user._id.toString(),
+          action,
+          timestamp,
+          resultState: gameSession.game.getState()
+        });
+      }
       
       if (!result.success) {
         socket.emit('game:invalid_action', { error: result.error });
@@ -211,6 +240,37 @@ export const initSocketHandlers = (io) => {
     });
     
     /**
+     * Handle chat messages
+     */
+    socket.on('room:chat', ({ message }) => {
+      // Validate user is in a room
+      if (!socket.currentRoom) {
+        socket.emit('error', { message: 'You must join a room to send messages' });
+        console.log(`Chat rejected: ${socket.user?.username} is not in a room`);
+        return;
+      }
+      
+      // Validate message content
+      if (!message || typeof message !== 'string' || !message.trim()) {
+        socket.emit('error', { message: 'Message cannot be empty' });
+        return;
+      }
+      
+      // Sanitize and limit message length
+      const sanitizedMessage = message.trim().slice(0, 500);
+      
+      const chatMsg = {
+        sender: socket.user.username,
+        senderId: socket.user._id.toString(),
+        text: sanitizedMessage,
+        timestamp: new Date().toISOString()
+      };
+      
+      console.log(`Chat in room ${socket.currentRoom}: ${socket.user.username}: ${sanitizedMessage.slice(0, 50)}...`);
+      io.to(`room:${socket.currentRoom}`).emit('room:chat', chatMsg);
+    });
+
+    /**
      * Handle disconnect
      */
     socket.on('disconnect', async () => {
@@ -228,6 +288,9 @@ export const initSocketHandlers = (io) => {
       }
     });
   });
+  
+  // Initialize matchmaking handlers
+  initMatchmakingHandlers(io);
 };
 
 /**
@@ -281,6 +344,7 @@ async function handleLeaveRoom(socket, io) {
   
   // Notify remaining players
   await match.populate('players.user', 'username avatar');
+  await match.populate('game');
   io.to(`room:${roomCode}`).emit('room:updated', {
     match: match.toObject()
   });
@@ -325,6 +389,9 @@ async function startGame(roomCode, io) {
     onGameEnd: async (result) => {
       console.log(`Game ended in room ${roomCode}:`, result);
       
+      const gameSession = activeGames.get(roomCode);
+      const gameDuration = Date.now() - (gameSession?.startTime || Date.now());
+      
       // Update match
       match.status = 'finished';
       match.finishedAt = new Date();
@@ -335,7 +402,32 @@ async function startGame(roomCode, io) {
       };
       await match.save();
       
-      // Update player stats
+      // Save replay
+      try {
+        await Replay.create({
+          match: match._id,
+          game: match.game._id,
+          gameSlug: match.game.slug,
+          players: match.players.map(p => ({
+            id: p.user._id.toString(),
+            username: p.user.username,
+            avatar: p.user.avatar
+          })),
+          initialState: gameSession?.initialState || {},
+          actions: gameSession?.replayActions || [],
+          result: {
+            winnerId: result.winner,
+            reason: result.reason,
+            isDraw: result.isDraw || false
+          },
+          duration: gameDuration
+        });
+        console.log(`Replay saved for match ${match._id}`);
+      } catch (replayError) {
+        console.error('Failed to save replay:', replayError);
+      }
+      
+      // Update player stats and ELO ratings
       for (const p of match.players) {
         const isWinner = result.winner === p.user._id.toString();
         const update = {
@@ -353,6 +445,15 @@ async function startGame(roomCode, io) {
         await User.findByIdAndUpdate(p.user._id, update);
       }
       
+      // Update ELO ratings for matchmaking
+      if (match.players.length === 2 && !result.isDraw && result.winner) {
+        const winnerId = result.winner;
+        const loserId = match.players.find(p => p.user._id.toString() !== winnerId)?.user._id;
+        if (loserId) {
+          await updateRatingsAfterGame(winnerId, loserId.toString(), match.game.slug, result.isDraw);
+        }
+      }
+      
       // Notify players
       io.to(`room:${roomCode}`).emit('game:end', { result, match: match.toObject() });
       
@@ -361,11 +462,15 @@ async function startGame(roomCode, io) {
     }
   });
   
-  // Store session
+  // Store session with replay data
+  const initialState = gameInstance.getState();
   activeGames.set(roomCode, {
     match,
     game: gameInstance,
-    loop
+    loop,
+    startTime: Date.now(),
+    initialState,
+    replayActions: []
   });
   
   // Update match status

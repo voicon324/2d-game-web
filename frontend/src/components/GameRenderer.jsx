@@ -14,7 +14,7 @@ import { useMemo, useCallback } from 'react';
 // Cell renderers for different game types
 const CELL_RENDERERS = {
   // Caro/Gomoku: X and O
-  caro: (value, isLastMove) => {
+  caro: (value) => {
     if (value === null || value === 0) return null;
     const isX = value === 'X' || value === 1;
     return (
@@ -25,7 +25,7 @@ const CELL_RENDERERS = {
   },
   
   // Tic Tac Toe: X and O (Large)
-  tictactoe: (value, isLastMove) => {
+  tictactoe: (value) => {
     if (!value) return null;
     const isX = value === 'X' || value === 1;
     return (
@@ -198,7 +198,7 @@ const BOARD_STYLES = {
   connect4: 'gap-2 bg-blue-700 p-4 rounded-xl',
   match3: 'gap-1 bg-slate-800/50 p-2 rounded-xl backdrop-blur-sm',
   memory: 'gap-3 bg-slate-200 dark:bg-slate-800 p-4',
-  memory: 'gap-3 bg-slate-200 dark:bg-slate-800 p-4',
+
   drawing: 'gap-0 border border-slate-300 dark:border-slate-700 shadow-inner bg-white',
   snake: 'bg-slate-900 border-4 border-slate-700'
 };

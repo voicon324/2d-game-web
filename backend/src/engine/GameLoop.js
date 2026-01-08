@@ -56,7 +56,7 @@ class GameLoop {
     this._lastTime = now;
     
     // Update game state
-    this.game.update(dt);
+    const hasChanged = this.game.update(dt);
     
     // Check win condition
     const result = this.game.isWin();
@@ -67,8 +67,10 @@ class GameLoop {
       return;
     }
     
-    // Emit state change
-    this._onStateChange(this.game.getState());
+    // Emit state change only if changed
+    if (hasChanged) {
+      this._onStateChange(this.game.getState());
+    }
   }
   
   /**

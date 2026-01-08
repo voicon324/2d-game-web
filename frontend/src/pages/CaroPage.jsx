@@ -13,10 +13,10 @@ export default function CaroPage() {
   const roomCode = roomId || searchParams.get('room');
   
   // Mock user - in real app this would come from auth context
-  const [user] = useState({
+  const [user] = useState(() => ({
     id: `user_${Math.random().toString(36).substr(2, 9)}`,
     username: `Player_${Math.floor(Math.random() * 1000)}`
-  });
+  }));
   
   const {
     isConnected,
@@ -51,6 +51,7 @@ export default function CaroPage() {
   }, [isConnected, roomCode, user.id, user.username, joinRoom]);
   
   // Handle cell click
+  // eslint-disable-next-line react-hooks/preserve-manual-memoization
   const handleCellClick = useCallback((x, y) => {
     if (!roomInfo?.roomCode) return;
     

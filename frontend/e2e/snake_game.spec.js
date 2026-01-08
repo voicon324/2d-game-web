@@ -24,7 +24,7 @@ test.describe('Snake Game', () => {
         await page.getByRole('button', { name: 'Create Custom Room' }).click();
         
         // Select Snake from the modal (button containing "Snake")
-        const snakeButton = page.locator('div[role="dialog"] button').filter({ hasText: 'Snake' }).first(); 
+ 
         // Or simply button with name if unique
         // Using locator with filter is safer vs 'dialog' role if not explicitly set, checking jsx...
         // Modal has strict structure but maybe not role="dialog"? 
@@ -64,7 +64,7 @@ test.describe('Snake Game', () => {
         
         // Check for snake segment
         // First segment color is based on player index, likely green #22c55e
-        const snakeSelector = 'div[style*="background-color: rgb(34, 197, 94)"]'; // #22c55e
+
         // Or cleaner locator
         // We added data-cell, but the snake is rendered INSIDE the cell button
         // The cell is a button.

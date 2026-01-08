@@ -10,7 +10,7 @@ export default function LeaderboardPage() {
   const [activeFilter, setActiveFilter] = useState('All Games');
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [currentUser, setCurrentUser] = useState(api.auth.getCurrentUser());
+  const [currentUser] = useState(api.auth.getCurrentUser());
 
   useEffect(() => {
     const fetchLeaderboard = async () => {

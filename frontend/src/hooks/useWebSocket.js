@@ -58,7 +58,7 @@ export function useWebSocket() {
         setRoomInfo({
           roomCode: data.match.roomCode,
           status: data.match.status,
-          players: data.match.players || data.players,
+          players: data.players || data.match.players,
           game: data.match.game
         });
       }

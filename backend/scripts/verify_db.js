@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import mongoose from 'mongoose';
-import Game from './src/models/Game.js';
+import Game from '../src/models/Game.js';
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://admin:password123@localhost:27017/game2d?authSource=admin';
 

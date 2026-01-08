@@ -12,7 +12,7 @@ export default function Toast({
   const [isVisible, setIsVisible] = useState(show);
 
   useEffect(() => {
-    setIsVisible(show);
+    setIsVisible(show); // eslint-disable-line react-hooks/set-state-in-effect
     if (show && autoClose) {
       const timer = setTimeout(() => {
         setIsVisible(false);

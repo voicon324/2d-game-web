@@ -50,6 +50,7 @@ class BaseGame {
    */
   update(dt) {
     // Optional - only needed for real-time games
+    return false;
   }
   
   /**

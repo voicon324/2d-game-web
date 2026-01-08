@@ -4,7 +4,7 @@ test.describe('Admin Game Editor', () => {
   test.beforeEach(async ({ page }) => {
     // Login as admin first
     await page.goto('http://localhost:3000/login');
-    await page.locator('input[name="email"]').fill('admin@example.com');
+    await page.locator('input[name="email"]').fill('admin@game2d.com');
     await page.locator('input[name="password"]').fill('admin123');
     await page.locator('button[type="submit"]').click();
     

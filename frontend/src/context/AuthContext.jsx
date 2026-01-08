@@ -24,7 +24,7 @@ export function AuthProvider({ children }) {
           
           // Connect socket
           socketService.connect(token);
-        } catch (err) {
+        } catch {
           // Token expired or invalid
           apiService.setToken(null);
           apiService.setCurrentUser(null);
@@ -110,6 +110,7 @@ export function AuthProvider({ children }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) {

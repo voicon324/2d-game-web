@@ -12,7 +12,7 @@ import useWebSocket from '../hooks/useWebSocket';
  * Uses WebSocket for real-time multiplayer
  */
 export default function GameBoardPage() {
-  const { id: gameId } = useParams();
+  const { id: _gameId } = useParams();
   const [searchParams] = useSearchParams();
   const roomCode = searchParams.get('room');
   const gameType = searchParams.get('type') || 'caro'; // default to caro
@@ -94,7 +94,7 @@ export default function GameBoardPage() {
       // Don't set isLoading(false) here, wait for roomInfo to arrive
     } else if (isConnected && !roomCode) {
       // If no room code, we are done loading (show join form)
-      setIsLoading(false);
+      setIsLoading(false); // eslint-disable-line react-hooks/set-state-in-effect
     } else if (error) {
        setIsLoading(false);
     }
@@ -103,7 +103,7 @@ export default function GameBoardPage() {
   // Stop loading when roomInfo or error arrives
   useEffect(() => {
     if (roomInfo) {
-      setIsLoading(false);
+      setIsLoading(false); // eslint-disable-line react-hooks/set-state-in-effect
     }
   }, [roomInfo]);
   
@@ -182,7 +182,7 @@ export default function GameBoardPage() {
   const isMyTurn = isLiveGame || gameState?.currentPlayer?.id === user?._id;
   
   // Get my symbol/info
-  const myPlayer = gameState?.players?.find(p => p.id === user?._id);
+  // const myPlayer = gameState?.players?.find(p => p.id === user?._id);
 
   // Loading Overlay
   if (isLoading) {

@@ -90,21 +90,24 @@ test.describe('Drawing Game Detailed E2E', () => {
     });
 
     test('Multiplayer Synchronization', async ({ browser }) => {
+        // 1. P1 Registers and Creates Room
         // Player 1 sets up room
         const { page: p1, username: u1 } = await registerAndLogin(browser, 'DrawP1');
         const roomCode = await createDrawingRoom(p1);
+        console.log('Room created:', roomCode);
         
-        // Player 2 joins
+        // 2. P2 Registers (Separate Session)
         const { page: p2, username: u2 } = await registerAndLogin(browser, 'DrawP2');
         
         // P2 enters room code
-        await expect(p2.getByPlaceholder('Enter room code...')).toBeVisible();
+        await p2.waitForLoadState('networkidle');
+        await expect(p2.getByPlaceholder('Enter room code...')).toBeVisible({ timeout: 10000 });
         await p2.getByPlaceholder('Enter room code...').fill(roomCode);
         await p2.getByRole('button', { name: "Join Room" }).click();
         
         // Verify both players visible in both sessions
-        await expect(p1.getByText(u2)).toBeVisible();
-        await expect(p2.getByText(u1)).toBeVisible(); // u1 might be shown as 'Player' or username depending on logic, but checking for u1 name ideally
+        await expect(p1.getByText(u2)).toBeVisible({ timeout: 10000 });
+        await expect(p2.getByText(u1)).toBeVisible({ timeout: 10000 });
         
         // Both click Ready
         await p1.getByRole('button', { name: "Ready to Play" }).first().click();

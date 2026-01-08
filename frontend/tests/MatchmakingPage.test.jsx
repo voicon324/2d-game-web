@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { MemoryRouter, useParams, useNavigate } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import MatchmakingPage from '../src/pages/MatchmakingPage';
 import { ThemeProvider } from '../src/context/ThemeContext';
 import { vi } from 'vitest';

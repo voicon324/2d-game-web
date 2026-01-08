@@ -38,15 +38,6 @@ export default function MatchmakingPage() {
   }, [status]);
 
   // Cleanup socket on unmount
-  useEffect(() => {
-    return () => {
-      if (socketRef.current) {
-        socketRef.current.emit('matchmaking:leave', { userId: getUserId() });
-        socketRef.current.disconnect();
-      }
-    };
-  }, []);
-
   const getUserId = useCallback(() => {
     const token = localStorage.getItem('token');
     if (!token) return null;
@@ -57,6 +48,17 @@ export default function MatchmakingPage() {
       return null;
     }
   }, []);
+
+  useEffect(() => {
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.emit('matchmaking:leave', { userId: getUserId() });
+        socketRef.current.disconnect();
+      }
+    };
+  }, [getUserId]);
+
+
 
   const handleStartMatchmaking = async () => {
     if (!selectedGame) return;
@@ -243,7 +245,7 @@ export default function MatchmakingPage() {
             <h2 className="text-2xl font-bold text-green-500 mb-4">Match Found!</h2>
             
             <div className="flex justify-center gap-8 mb-6">
-              {matchData.players?.map((player, idx) => (
+              {matchData.players?.map((player) => (
                 <div key={player.id} className="text-center">
                   <div className="w-16 h-16 mx-auto bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xl mb-2">
                     {player.username?.charAt(0).toUpperCase()}

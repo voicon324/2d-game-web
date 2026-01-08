@@ -260,6 +260,9 @@ class TankGame extends BaseGame {
             this.state.board[ny][nx] = b;
         }
     }
+    
+    // Return true if any change happened (bullets moved)
+    return bullets.length > 0;
   }
   
   isWin() {

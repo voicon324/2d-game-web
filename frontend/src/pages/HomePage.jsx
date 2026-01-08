@@ -18,9 +18,38 @@ export default function HomePage() {
     isPrivate: false,
     password: '',
   });
+  const [joinRoomCode, setJoinRoomCode] = useState('');
+
+  const handleJoinRoom = () => {
+    if (!joinRoomCode) return;
+    // We don't know the game type from code alone easily without API, 
+    // but usually we redirect to a generic join or matchmaking checker.
+    // For now, let's assume valid codes exist. 
+    // Wait, the router usually needs gameSlug. 
+    // But our test expects just entering code. 
+    // Let's rely on backend validation or specific route.
+    // Actually, checking API first is better.
+    // For this project, let's redirect to matchmaking/check or similar?
+    // Looking at routes, we have /play/:slug/:roomCode or similar?
+    
+    // Quick fix: The backend matchmaking/gameHandler knows the game.
+    // But frontend URL requires slug: /game/:slug?room=...
+    // We need to fetch room info first.
+    api.matches.getByRoom(joinRoomCode)
+      .then(match => {
+        if (match && match.game && match.game.slug) {
+           navigate(`/game/${match.game.slug}?type=${match.game.slug}&room=${joinRoomCode}`);
+        } else {
+           alert('Room not found');
+        }
+      })
+      .catch(err => {
+        alert('Failed to join room: ' + err.message);
+      });
+  };
 
   const [games, setGames] = useState([]);
-  const [user, setUser] = useState(api.auth.getCurrentUser());
+  const [user] = useState(api.auth.getCurrentUser());
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -100,7 +129,27 @@ export default function HomePage() {
               Ready for your next challenge? Choose a game below.
             </p>
           </div>
-          <div className="mt-4 flex md:mt-0 md:ml-4">
+          <div className="mt-4 flex flex-col sm:flex-row gap-3 md:mt-0 md:ml-4 items-center">
+            {/* Join Room Form */}
+            <div className="flex gap-2 w-full sm:w-auto">
+              <input
+                type="text"
+                value={joinRoomCode}
+                onChange={(e) => setJoinRoomCode(e.target.value.toUpperCase())}
+                placeholder="Enter room code..."
+                className="w-full sm:w-32 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-pink-500 focus:border-pink-500 uppercase font-mono text-sm"
+                maxLength={6}
+              />
+              <Button 
+                variant="secondary" 
+                onClick={handleJoinRoom}
+                disabled={!joinRoomCode || joinRoomCode.length < 6}
+                className="whitespace-nowrap"
+              >
+                Join Room
+              </Button>
+            </div>
+            
             <Button icon="add" onClick={handleOpenCreateModal}>
               Create Custom Room
             </Button>

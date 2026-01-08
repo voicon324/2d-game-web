@@ -113,9 +113,21 @@ export const initSocketHandlers = (io) => {
         
         console.log(`Sending room update for ${match.game.slug} (${match.roomCode})`);
 
+        // Explicitly map players to ensure serialization works as expected
+        const populatedPlayers = match.players.map(p => {
+          const pObj = p.toObject ? p.toObject() : p;
+          // Ensure user object is populated and carries over
+          if (p.user && typeof p.user === 'object') {
+            pObj.user = p.user; 
+          }
+          return pObj;
+        });
+
+
+
         io.to(`room:${roomCode}`).emit('room:updated', {
           match: match.toObject(),
-          players: match.players
+          players: populatedPlayers
         });
         
         console.log(`${socket.user.username} joined room ${roomCode}`);
@@ -157,8 +169,17 @@ export const initSocketHandlers = (io) => {
           
           await match.populate('players.user', 'username avatar');
           await match.populate('game');
+          const populatedPlayers = match.players.map(p => {
+              const pObj = p.toObject ? p.toObject() : p;
+              if (p.user && typeof p.user === 'object') {
+                  pObj.user = p.user;
+              }
+              return pObj;
+          });
+
           io.to(`room:${socket.currentRoom}`).emit('room:updated', {
-            match: match.toObject()
+            match: match.toObject(),
+            players: populatedPlayers
           });
           
           // Check if all players ready to start game
@@ -347,8 +368,17 @@ async function handleLeaveRoom(socket, io) {
   // Notify remaining players
   await match.populate('players.user', 'username avatar');
   await match.populate('game');
+  const populatedPlayers = match.players.map(p => {
+      const pObj = p.toObject ? p.toObject() : p;
+      if (p.user && typeof p.user === 'object') {
+          pObj.user = p.user;
+      }
+      return pObj;
+  });
+
   io.to(`room:${roomCode}`).emit('room:updated', {
-    match: match.toObject()
+    match: match.toObject(),
+    players: populatedPlayers
   });
 }
 

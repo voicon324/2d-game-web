@@ -10,12 +10,13 @@ export default function ReplayPlayerPage() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentActionIndex, setCurrentActionIndex] = useState(0);
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
+  // eslint-disable-next-line no-unused-vars
   const [currentState, setCurrentState] = useState(null);
   const playbackRef = useRef(null);
 
   // Fetch replay data
   useEffect(() => {
-    setLoading(true);
+    setLoading(true); // eslint-disable-line react-hooks/set-state-in-effect
     fetch(`/api/replays/match/${matchId}`)
       .then(res => {
         if (!res.ok) throw new Error('Replay not found');
@@ -54,7 +55,7 @@ export default function ReplayPlayerPage() {
   // Auto-pause at end
   useEffect(() => {
     if (replay && currentActionIndex >= replay.actions.length) {
-      setIsPlaying(false);
+      setIsPlaying(false); // eslint-disable-line react-hooks/set-state-in-effect
     }
   }, [currentActionIndex, replay]);
 

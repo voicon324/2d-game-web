@@ -11,6 +11,7 @@ class Drawing extends BaseGame {
   }
   
   load(config) {
+    this.boardSize = config.boardSize || this.boardSize;
     this.state = {
       board: Array(this.boardSize).fill(null).map(() => 
         Array(this.boardSize).fill('#FFFFFF') // White canvas
@@ -27,7 +28,7 @@ class Drawing extends BaseGame {
     if (x < 0 || x >= this.boardSize || y < 0 || y >= this.boardSize) return false;
     
     this.state.board[y][x] = color || '#000000';
-    return true;
+    return true; // Action successful
   }
   
   getState() {

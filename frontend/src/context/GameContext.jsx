@@ -22,7 +22,7 @@ export function GameProvider({ children }) {
     
     listenersInitialized.current = true;
 
-    socketService.onRoomUpdate(({ match, players }) => {
+    socketService.onRoomUpdate(({ match }) => {
       setRoom(match);
     });
 
@@ -105,6 +105,7 @@ export function GameProvider({ children }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useGame() {
   const context = useContext(GameContext);
   if (!context) {

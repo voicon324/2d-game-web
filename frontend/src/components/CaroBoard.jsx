@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 
 /**
  * CaroBoard - Interactive Caro/Gomoku game board component
@@ -16,7 +16,6 @@ export default function CaroBoard({
   board = [],
   boardSize = 15,
   lastMove = null,
-  currentPlayer = null,
   isMyTurn = false,
   onCellClick = () => {},
   disabled = false
